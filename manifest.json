@@ -1,0 +1,21 @@
+{
+  "name": "ArtKGS — Miniature Pencil Sculptor & Artist Harsh",
+  "short_name": "ArtKGS",
+  "description": "Bespoke miniature pencil lead carvings and sacred Himalayan art by Harsh in Rishikesh, Uttarakhand.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0c0a09",
+  "theme_color": "#d4af37",
+  "icons": [
+    {
+      "src": "/assets/images/branding/harsh_avatar.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "/assets/images/branding/harsh_avatar.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}

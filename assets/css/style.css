@@ -1,0 +1,526 @@
+/* ArtKGS — Luxury Fine Art & 3D Interactive Showcase Stylesheet */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Martel:wght@400;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Rozha+One&display=swap');
+
+.font-devanagari {
+  font-family: 'Martel', serif;
+  letter-spacing: 0.01em;
+}
+
+:root {
+  --bg-primary: #0a0908;
+  --bg-secondary: #141311;
+  --bg-card: rgba(24, 23, 20, 0.75);
+  --text-primary: #f5f3ef;
+  --text-secondary: #a8a29e;
+  --accent-gold: #d4af37;
+  --accent-gold-light: #f3e5ab;
+  --accent-terracotta: #c25936;
+  --accent-ganga: #2a6f7b;
+  --border-subtle: rgba(212, 175, 55, 0.15);
+  --border-active: rgba(212, 175, 55, 0.45);
+}
+
+/* Light Gallery Mode */
+body.light-gallery-mode {
+  --bg-primary: #faf8f5;
+  --bg-secondary: #f3efe6;
+  --bg-card: #ffffff;
+  --text-primary: #181614;
+  --text-secondary: #44403c;
+  --border-subtle: #e5e0d8;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+body.light-gallery-mode .bg-canvas-texture {
+  background-image: radial-gradient(rgba(180, 130, 40, 0.08) 1px, transparent 0);
+}
+
+/* Backgrounds in Light Mode */
+body.light-gallery-mode .bg-stone-950,
+body.light-gallery-mode .bg-stone-950\/80,
+body.light-gallery-mode .bg-stone-950\/85,
+body.light-gallery-mode .bg-stone-950\/90,
+body.light-gallery-mode .bg-stone-950\/95 {
+  background-color: #f6f3ec !important;
+}
+
+body.light-gallery-mode header#main-header {
+  background-color: rgba(250, 248, 245, 0.95) !important;
+  border-bottom-color: #e5e0d8 !important;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+}
+
+body.light-gallery-mode .bg-stone-900,
+body.light-gallery-mode .bg-stone-900\/60,
+body.light-gallery-mode .bg-stone-900\/70,
+body.light-gallery-mode .bg-stone-900\/80,
+body.light-gallery-mode .bg-stone-900\/90 {
+  background-color: #ffffff !important;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.04);
+}
+
+body.light-gallery-mode footer {
+  background-color: #f5f2eb !important;
+  border-top-color: #e5e0d8 !important;
+}
+
+/* Borders in Light Mode */
+body.light-gallery-mode .border-stone-800,
+body.light-gallery-mode .border-stone-800\/60,
+body.light-gallery-mode .border-stone-800\/70,
+body.light-gallery-mode .border-stone-800\/80,
+body.light-gallery-mode .border-stone-900,
+body.light-gallery-mode .border-amber-900\/20,
+body.light-gallery-mode .border-amber-900\/30,
+body.light-gallery-mode .border-amber-900\/40 {
+  border-color: #e5e0d8 !important;
+}
+
+/* Primary Text in Light Mode */
+body.light-gallery-mode .text-stone-100 {
+  color: #181614 !important;
+}
+body.light-gallery-mode .text-stone-200 {
+  color: #292524 !important;
+}
+body.light-gallery-mode .text-stone-300 {
+  color: #44403c !important;
+}
+body.light-gallery-mode .text-stone-400 {
+  color: #57534e !important;
+}
+body.light-gallery-mode .text-stone-500 {
+  color: #78716c !important;
+}
+
+/* Amber / Gold Text & Subtitles in Light Mode (High-Contrast Rich Bronze) */
+body.light-gallery-mode .text-amber-300,
+body.light-gallery-mode .text-amber-400,
+body.light-gallery-mode .text-amber-400\/70,
+body.light-gallery-mode .text-amber-400\/80,
+body.light-gallery-mode .text-amber-400\/90,
+body.light-gallery-mode .text-amber-500,
+body.light-gallery-mode .text-amber-500\/80 {
+  color: #854d0e !important; /* Rich deep bronze, contrast ratio > 7:1 */
+  font-weight: 600;
+}
+
+body.light-gallery-mode .group:hover .group-hover\:text-amber-300,
+body.light-gallery-mode .group:hover .group-hover\:text-amber-400 {
+  color: #9a5b13 !important;
+}
+
+/* Category Badges in Light Mode */
+body.light-gallery-mode .bg-amber-500\/20 {
+  background-color: #fef3c7 !important;
+  color: #92400e !important;
+  border-color: #fcd34d !important;
+}
+body.light-gallery-mode .bg-orange-500\/20 {
+  background-color: #ffedd5 !important;
+  color: #9a3412 !important;
+  border-color: #fdba74 !important;
+}
+body.light-gallery-mode .bg-emerald-500\/20 {
+  background-color: #d1fae5 !important;
+  color: #065f46 !important;
+  border-color: #6ee7b7 !important;
+}
+body.light-gallery-mode .bg-cyan-500\/20 {
+  background-color: #cffafe !important;
+  color: #155e75 !important;
+  border-color: #67e8f9 !important;
+}
+body.light-gallery-mode .bg-rose-500\/20 {
+  background-color: #ffe4e6 !important;
+  color: #9f1239 !important;
+  border-color: #fda4af !important;
+}
+body.light-gallery-mode .bg-purple-500\/20 {
+  background-color: #f3e8ff !important;
+  color: #6b21a8 !important;
+  border-color: #d8b4fe !important;
+}
+body.light-gallery-mode .bg-yellow-500\/20 {
+  background-color: #fef9c3 !important;
+  color: #854d0e !important;
+  border-color: #fde047 !important;
+}
+
+/* Colored text tags in light mode */
+body.light-gallery-mode .text-orange-300 { color: #9a3412 !important; font-weight: 600; }
+body.light-gallery-mode .text-emerald-300,
+body.light-gallery-mode .text-emerald-400,
+body.light-gallery-mode .text-emerald-500 { color: #065f46 !important; font-weight: 600; }
+body.light-gallery-mode .text-cyan-300 { color: #155e75 !important; font-weight: 600; }
+body.light-gallery-mode .text-rose-300 { color: #9f1239 !important; font-weight: 600; }
+body.light-gallery-mode .text-purple-300 { color: #6b21a8 !important; font-weight: 600; }
+
+/* Filter Tabs in Light Mode */
+body.light-gallery-mode .gallery-filter-btn:not(.active-tab) {
+  background-color: #f3efe6 !important;
+  color: #44403c !important;
+  border-color: #e5e0d8 !important;
+}
+body.light-gallery-mode .gallery-filter-btn.active-tab {
+  background: #1c1917 !important;
+  color: #faf8f5 !important;
+  border-color: #1c1917 !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Modals in Light Mode */
+body.light-gallery-mode #macro-modal > div,
+body.light-gallery-mode #booking-modal > div {
+  background-color: #ffffff !important;
+  border-color: #e5e0d8 !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15) !important;
+}
+body.light-gallery-mode #macro-image-stage {
+  background-color: #f5f2eb !important;
+}
+body.light-gallery-mode input,
+body.light-gallery-mode select,
+body.light-gallery-mode textarea {
+  background-color: #f8f6f0 !important;
+  color: #1c1917 !important;
+  border-color: #e5e0d8 !important;
+}
+
+/* General Resets & Typography */
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  overflow-x: hidden;
+  selection-background-color: var(--accent-gold);
+  selection-color: #000;
+}
+
+h1, h2, h3, .font-serif {
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.02em;
+}
+
+.font-editorial {
+  font-family: 'Cormorant Garamond', serif;
+}
+
+/* Subtle Canvas Paper Grain */
+.bg-canvas-texture {
+  background-image: radial-gradient(rgba(212, 175, 55, 0.04) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+/* 3D Pencil Stage Container */
+#pencil-3d-container {
+  width: 100%;
+  height: 540px;
+  cursor: grab;
+}
+
+#pencil-3d-container:active {
+  cursor: grabbing;
+}
+
+/* 3D Pedestal Glow */
+.pedestal-glow {
+  position: absolute;
+  bottom: 8%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 280px;
+  height: 50px;
+  background: radial-gradient(ellipse at center, rgba(212, 175, 55, 0.35) 0%, rgba(212, 175, 55, 0.05) 60%, transparent 80%);
+  filter: blur(12px);
+  pointer-events: none;
+}
+
+/* Model Switcher Buttons */
+.model-switcher-btn {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.model-switcher-btn.active-mode {
+  background: linear-gradient(135deg, #d4af37, #b8860b);
+  color: #0c0a09 !important;
+  font-weight: 700;
+  box-shadow: 0 4px 20px rgba(212, 175, 55, 0.4);
+  border-color: transparent;
+}
+
+/* Microscopic Magnifying Loupe */
+#macro-loupe {
+  position: absolute;
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.05s linear;
+  box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.8), 0 0 25px rgba(0, 0, 0, 0.85), inset 0 0 15px rgba(0, 0, 0, 0.6);
+  z-index: 50;
+  background-color: #000;
+}
+
+#macro-loupe::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, transparent 45%, rgba(0, 0, 0, 0.4) 100%);
+  pointer-events: none;
+}
+
+/* Crosshairs inside Loupe */
+#macro-loupe::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 14px;
+  height: 14px;
+  transform: translate(-50%, -50%);
+  border-top: 1px solid rgba(212, 175, 55, 0.7);
+  border-left: 1px solid rgba(212, 175, 55, 0.7);
+  pointer-events: none;
+}
+
+/* Active Lighting Filter */
+.lighting-filter-btn.active-filter {
+  border-color: #d4af37 !important;
+  background-color: rgba(212, 175, 55, 0.2) !important;
+  color: #f3e5ab !important;
+}
+
+/* Dual View Mode Buttons (Detail vs Scale Ruler) */
+.macro-view-mode-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  background-color: transparent;
+  color: #a8a29e;
+  border-color: transparent;
+}
+
+.macro-view-mode-btn:hover {
+  color: #f5f5f4;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.macro-view-mode-btn.active-viewmode {
+  background: linear-gradient(135deg, #d4af37, #b8860b) !important;
+  color: #0c0a09 !important;
+  border-color: #f3e5ab !important;
+  font-weight: 700 !important;
+  box-shadow: 0 2px 10px rgba(212, 175, 55, 0.4);
+}
+
+/* Gallery Filter Active Tab */
+.gallery-filter-btn.active-tab {
+  background: linear-gradient(135deg, #d4af37, #c59b27) !important;
+  color: #0c0a09 !important;
+  font-weight: 700;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.35);
+}
+
+/* Pulsing Status Dot */
+@keyframes pulseGlow {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.9;
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+    box-shadow: 0 0 0 6px rgba(34, 197, 94, 0);
+  }
+}
+
+.status-dot-pulse {
+  animation: pulseGlow 2s infinite ease-in-out;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Custom Gold Scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: #121110;
+}
+::-webkit-scrollbar-thumb {
+  background: #3a3328;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #d4af37;
+}
+
+/* Hide scrollbar for clean carousels */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Floating WhatsApp Direct Button */
+@keyframes waFloatPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.6), 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 16px rgba(37, 211, 102, 0), 0 15px 30px -5px rgba(0, 0, 0, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0), 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+  }
+}
+
+.wa-floating-btn {
+  animation: waFloatPulse 2.5s infinite;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.wa-floating-btn:hover {
+  transform: translateY(-4px) scale(1.04);
+}
+
+/* WhatsApp Direct Booking Banner (Dark Default) */
+.wa-direct-banner {
+  background: radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.15) 0%, rgba(28, 25, 23, 0.95) 75%) !important;
+  border: 1px solid rgba(16, 185, 129, 0.35) !important;
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+}
+
+.wa-direct-banner .wa-banner-icon {
+  background-color: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  color: #34d399;
+}
+
+.wa-direct-banner .wa-banner-title {
+  color: #f5f5f4 !important;
+}
+
+.wa-direct-banner .wa-banner-desc {
+  color: #d6d3d1 !important;
+}
+
+.wa-direct-banner .wa-banner-btn {
+  background: linear-gradient(135deg, #10b981, #059669) !important;
+  color: #0c0a09 !important;
+  box-shadow: 0 8px 25px -4px rgba(16, 185, 129, 0.4) !important;
+}
+
+.wa-direct-banner .wa-banner-btn:hover {
+  background: linear-gradient(135deg, #34d399, #10b981) !important;
+  transform: translateY(-2px);
+}
+
+.wa-direct-banner .wa-banner-pulse {
+  background-color: #0c0a09 !important;
+  animation: pulseGlow 2s infinite ease-in-out;
+}
+
+/* WhatsApp Direct Booking Banner in Light Gallery Theme */
+body.light-gallery-mode .wa-direct-banner {
+  background: linear-gradient(145deg, #ffffff 0%, #f0fdf4 50%, #ecfdf5 100%) !important;
+  border: 1px solid #a7f3d0 !important;
+  box-shadow: 0 15px 35px -5px rgba(16, 185, 129, 0.15), 0 0 0 1px rgba(16, 185, 129, 0.05) !important;
+}
+
+body.light-gallery-mode .wa-direct-banner .wa-banner-icon {
+  background-color: #d1fae5 !important;
+  border: 1px solid #6ee7b7 !important;
+  color: #059669 !important;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2) !important;
+}
+
+body.light-gallery-mode .wa-direct-banner .wa-banner-title {
+  color: #064e3b !important; /* Deep luxury emerald green, sharp and high-contrast */
+}
+
+body.light-gallery-mode .wa-direct-banner .wa-banner-desc {
+  color: #047857 !important; /* Elegant readable pine green */
+}
+
+body.light-gallery-mode .wa-direct-banner .wa-banner-btn {
+  background: linear-gradient(135deg, #059669, #047857) !important;
+  color: #ffffff !important;
+  box-shadow: 0 8px 25px -4px rgba(5, 150, 105, 0.35) !important;
+}
+
+body.light-gallery-mode .wa-direct-banner .wa-banner-btn:hover {
+  background: linear-gradient(135deg, #10b981, #059669) !important;
+  transform: translateY(-2px);
+}
+
+body.light-gallery-mode .wa-direct-banner .wa-banner-pulse {
+  background-color: #ffffff !important;
+  animation: pulseGlow 2s infinite ease-in-out;
+}
+
+/* FAQ Accordion Styling */
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-item {
+  transition: all 0.25s ease-in-out;
+}
+
+.faq-item[open] {
+  border-color: rgba(212, 175, 55, 0.5) !important;
+  background-color: rgba(28, 25, 23, 0.85) !important;
+}
+
+/* FAQ in Light Gallery Mode */
+body.light-gallery-mode .faq-item {
+  background-color: #ffffff !important;
+  border-color: #e5e0d8 !important;
+  box-shadow: 0 4px 15px -2px rgba(0, 0, 0, 0.04) !important;
+}
+
+body.light-gallery-mode .faq-item summary {
+  color: #1c1917 !important;
+}
+
+body.light-gallery-mode .faq-item summary:hover {
+  color: #854d0e !important;
+}
+
+body.light-gallery-mode .faq-item .faq-icon {
+  background-color: #f5f2eb !important;
+  color: #854d0e !important;
+}
+
+body.light-gallery-mode .faq-item[open] {
+  border-color: #d4af37 !important;
+  box-shadow: 0 8px 25px -4px rgba(212, 175, 55, 0.15) !important;
+}
+
+body.light-gallery-mode .faq-item div {
+  color: #44403c !important;
+  border-top-color: #f3efe6 !important;
+}
+
+
+
