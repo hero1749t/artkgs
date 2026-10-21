@@ -89,7 +89,7 @@ function renderGallery(activeCategory = 'all') {
           src="${art.image}" 
           alt="${art.title}" 
           loading="lazy"
-          class="w-full h-full object-contain transform group-hover:scale-105 transition-transform duration-700 ease-out"
+          class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out"
         />
         
         <!-- Hover Overlay with Quick Actions -->
@@ -125,23 +125,32 @@ function renderGallery(activeCategory = 'all') {
       <!-- Card Details -->
       <div class="p-5 flex flex-col justify-between flex-1">
         <div>
-          <div class="flex items-start justify-between gap-2 mb-1">
-            <h3 class="font-serif text-lg font-bold text-stone-100 group-hover:text-amber-300 transition-colors leading-snug">
+          <div class="flex items-start justify-between gap-2 mb-1.5">
+            <h3 class="font-serif text-lg font-bold text-stone-100 group-hover:text-amber-300 transition-colors leading-snug line-clamp-1">
               ${art.title}
             </h3>
             <span class="text-xs font-mono text-amber-500/80 whitespace-nowrap">${art.year || ''}</span>
           </div>
           
           ${art.hindiQuote ? `
-            <p class="font-devanagari text-xs text-amber-300/90 italic mb-2 leading-relaxed">"${art.hindiQuote}"</p>
+            <p class="font-devanagari text-xs text-amber-300/90 italic mb-2 leading-relaxed truncate">"${art.hindiQuote}"</p>
           ` : (art.hindiTitle ? `
-            <p class="text-xs font-serif text-amber-400/70 mb-2">${art.hindiTitle}</p>
+            <p class="text-xs font-serif text-amber-400/80 mb-2 truncate">${art.hindiTitle}</p>
           ` : '')}
 
-          <p class="text-xs text-stone-400 mb-2 line-clamp-2 leading-relaxed font-light">
+          <p class="text-xs text-stone-400 mb-3 line-clamp-2 leading-relaxed font-light min-h-[2.5rem]">
             ${art.description}
           </p>
         </div>
+
+        <div class="pt-3 border-t border-stone-800/60 flex items-center justify-between text-xs mt-auto">
+          <span class="text-stone-400 truncate max-w-[180px] font-light">${art.medium}</span>
+          <button class="inquire-quick-link text-amber-400 hover:text-amber-300 font-medium inline-flex items-center gap-1 group/btn" data-id="${art.id}">
+            Book Art
+            <svg class="w-3.5 h-3.5 transform group-hover/btn:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+          </button>
+        </div>
+      </div>
 
         <div class="pt-3 border-t border-stone-800/60 flex items-center justify-between text-xs">
           <span class="text-stone-400 truncate max-w-[180px] font-light">${art.medium}</span>
