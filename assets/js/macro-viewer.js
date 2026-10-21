@@ -1,33 +1,58 @@
 // ArtKGS Microscopic Macro-Loupe & Detailing Inspector
-// Enables fluid 2x-8x magnification, surface lighting shifts, dual detail/scale ruler modes, and instant WhatsApp booking
+// Enables fluid 1.8x-8.0x magnification, surface lighting shifts, dual detail/scale ruler modes, and instant WhatsApp booking
 
 class MacroViewer {
   constructor() {
     this.modal = document.getElementById('macro-modal');
     this.image = document.getElementById('macro-main-image');
     this.loupe = document.getElementById('macro-loupe');
+    this.stage = document.getElementById('macro-image-stage');
     this.zoomLevel = 3.5;
     this.currentFilter = 'studio';
     this.currentViewMode = 'detail'; // 'detail' or 'scale'
     this.activeArtwork = null;
+    this.lastPointerPos = null;
 
-    if (this.modal) {
+    if (this.modal && this.image && this.loupe) {
       this.init();
     }
   }
 
   init() {
     this.bindEvents();
+    this.bindGlobalTriggers();
+  }
+
+  bindGlobalTriggers() {
+    // Delegated click support for any element requesting macro inspection
+    document.addEventListener('click', (e) => {
+      const trigger = e.target.closest('[data-macro-artwork], [data-macro-id]');
+      if (trigger) {
+        const id = trigger.getAttribute('data-macro-artwork') || trigger.getAttribute('data-macro-id');
+        if (id) {
+          e.preventDefault();
+          this.open(id);
+        }
+      }
+    });
   }
 
   open(artworkId) {
-    const item = ARTKGS_CATALOG.find(a => a.id === artworkId);
-    if (!item) return;
+    if (!window.ARTKGS_CATALOG) return;
+    const item = window.ARTKGS_CATALOG.find(a => a.id === artworkId);
+    if (!item) {
+      console.warn(`[MacroViewer] Artwork not found in catalog: ${artworkId}`);
+      return;
+    }
 
     this.activeArtwork = item;
     this.currentViewMode = 'detail';
-    
-    // Set UI contents
+
+    // 1. Unhide modal FIRST so DOM dimensions are fully computable
+    this.modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+
+    // 2. Set UI contents
     const titleEl = document.getElementById('macro-modal-title');
     if (titleEl) titleEl.textContent = item.title;
 
@@ -41,7 +66,7 @@ class MacroViewer {
     if (dimEl) dimEl.textContent = item.dimensions || item.size || '';
 
     const locEl = document.getElementById('macro-modal-location');
-    if (locEl) locEl.textContent = item.location || 'Rishikesh Studio';
+    if (locEl) locEl.textContent = item.location || 'Rishikesh Studio, Uttarakhand';
 
     const descEl = document.getElementById('macro-modal-desc');
     if (descEl) descEl.textContent = item.description || '';
@@ -49,7 +74,7 @@ class MacroViewer {
     const catEl = document.getElementById('macro-modal-category');
     if (catEl) catEl.textContent = item.categoryLabel || item.discipline || 'Pencil Sculpture';
 
-    // Series Piece Number Badge (e.g. 01/16)
+    // Series Piece Number Badge (e.g. Piece 01)
     const pieceBadge = document.getElementById('macro-modal-piece-no');
     if (pieceBadge) {
       if (item.pieceNumber) {
@@ -125,33 +150,53 @@ class MacroViewer {
       }
     }
 
-    // Load High-Res image
-    this.loadImage(item.image);
+    // Reset Zoom UI
+    this.setZoom(this.zoomLevel || 3.5);
 
-    // Reset filter
+    // Reset Lighting Filter
     this.setFilter('studio');
 
-    // Update WhatsApp book button
+    // Update WhatsApp inquiry button
     const bookBtn = document.getElementById('macro-modal-whatsapp-btn');
     if (bookBtn) {
       bookBtn.onclick = () => {
-        window.openWhatsAppInquiry(item);
+        if (typeof window.openWhatsAppInquiry === 'function') {
+          window.openWhatsAppInquiry(item);
+        } else {
+          const text = encodeURIComponent(`Namaste Harsh ji, I am inquiring about "${item.title}" (${item.medium || 'Miniature Sculpture'}) from your ArtKGS Portfolio.`);
+          window.open(`https://wa.me/919870620748?text=${text}`, '_blank');
+        }
       };
     }
 
-    // Show modal
-    this.modal.classList.remove('hidden');
-    document.body.style.overflow = 'hidden';
+    // Load High-Res image
+    this.loadImage(item.image);
   }
 
   loadImage(src) {
+    if (!this.image || !this.loupe) return;
+
     this.image.src = src;
     this.loupe.style.backgroundImage = `url('${src}')`;
     this.loupe.style.backgroundRepeat = 'no-repeat';
 
-    this.image.onload = () => {
+    const onReady = () => {
       this.updateLoupeBackgroundSize();
+      if (this.lastPointerPos) {
+        this.renderLoupe(this.lastPointerPos.x, this.lastPointerPos.y);
+      }
     };
+
+    if (this.image.complete && this.image.naturalWidth > 0) {
+      requestAnimationFrame(onReady);
+    }
+    this.image.onload = () => {
+      requestAnimationFrame(onReady);
+    };
+
+    // Fallbacks after DOM paint
+    setTimeout(onReady, 50);
+    setTimeout(onReady, 200);
   }
 
   setViewMode(mode) {
@@ -182,28 +227,52 @@ class MacroViewer {
   }
 
   close() {
+    if (!this.modal) return;
     this.modal.classList.add('hidden');
     document.body.style.overflow = '';
-    this.loupe.style.opacity = '0';
+    if (this.loupe) {
+      this.loupe.style.opacity = '0';
+    }
+    this.lastPointerPos = null;
   }
 
   updateLoupeBackgroundSize() {
-    const imgWidth = this.image.offsetWidth;
-    const imgHeight = this.image.offsetHeight;
-    this.loupe.style.backgroundSize = `${imgWidth * this.zoomLevel}px ${imgHeight * this.zoomLevel}px`;
+    if (!this.image || !this.loupe) return;
+    const rect = this.image.getBoundingClientRect();
+    const imgWidth = rect.width || this.image.offsetWidth;
+    const imgHeight = rect.height || this.image.offsetHeight;
+
+    if (imgWidth > 0 && imgHeight > 0) {
+      const bgW = Math.round(imgWidth * this.zoomLevel);
+      const bgH = Math.round(imgHeight * this.zoomLevel);
+      this.loupe.style.backgroundSize = `${bgW}px ${bgH}px`;
+    }
   }
 
   setZoom(level) {
-    this.zoomLevel = parseFloat(level);
-    this.updateLoupeBackgroundSize();
+    const parsed = Math.min(8.0, Math.max(1.8, parseFloat(level) || 3.5));
+    this.zoomLevel = parsed;
+
+    const zoomSlider = document.getElementById('macro-zoom-slider');
+    if (zoomSlider && parseFloat(zoomSlider.value) !== parsed) {
+      zoomSlider.value = parsed.toFixed(1);
+    }
+
     const zoomDisplay = document.getElementById('macro-zoom-val');
-    if (zoomDisplay) zoomDisplay.textContent = `${this.zoomLevel.toFixed(1)}x`;
+    if (zoomDisplay) {
+      zoomDisplay.textContent = `${this.zoomLevel.toFixed(1)}x`;
+    }
+
+    this.updateLoupeBackgroundSize();
+
+    if (this.lastPointerPos) {
+      this.renderLoupe(this.lastPointerPos.x, this.lastPointerPos.y);
+    }
   }
 
   setFilter(filterName) {
     this.currentFilter = filterName;
-    
-    // Apply CSS filters on main image and loupe
+
     let filterCss = 'none';
     if (filterName === 'graphite') {
       filterCss = 'contrast(135%) brightness(105%) saturate(85%) drop-shadow(0 0 12px rgba(212,175,55,0.2))';
@@ -213,25 +282,75 @@ class MacroViewer {
       filterCss = 'grayscale(100%) contrast(140%) brightness(95%)';
     }
 
-    this.image.style.filter = filterCss;
-    this.loupe.style.filter = filterCss;
+    if (this.image) this.image.style.filter = filterCss;
+    if (this.loupe) this.loupe.style.filter = filterCss;
 
     document.querySelectorAll('.lighting-filter-btn').forEach(btn => {
       btn.classList.toggle('active-filter', btn.dataset.filter === filterName);
     });
   }
 
+  renderLoupe(clientX, clientY) {
+    if (!this.image || !this.loupe) return;
+    const container = this.stage || document.getElementById('macro-image-stage');
+    if (!container) return;
+
+    const imgRect = this.image.getBoundingClientRect();
+    const stageRect = container.getBoundingClientRect();
+
+    // Check pointer boundary on image with generous tolerance
+    if (
+      clientX < (imgRect.left - 4) ||
+      clientX > (imgRect.right + 4) ||
+      clientY < (imgRect.top - 4) ||
+      clientY > (imgRect.bottom + 4)
+    ) {
+      this.loupe.style.opacity = '0';
+      return;
+    }
+
+    // Save active pointer position
+    this.lastPointerPos = { x: clientX, y: clientY };
+
+    // Reveal loupe
+    this.loupe.style.opacity = '1';
+
+    // Verify backgroundSize is set
+    const bgSize = this.loupe.style.backgroundSize;
+    if (!bgSize || bgSize.startsWith('0px') || bgSize === '') {
+      this.updateLoupeBackgroundSize();
+    }
+
+    const loupeRadius = (this.loupe.offsetWidth / 2) || 85;
+
+    // 1. Stage-relative positioning: centers the loupe right at the user's cursor
+    const stageX = clientX - stageRect.left;
+    const stageY = clientY - stageRect.top;
+    this.loupe.style.left = `${stageX - loupeRadius}px`;
+    this.loupe.style.top = `${stageY - loupeRadius}px`;
+
+    // 2. Image-relative positioning: centers the magnified pixel inside the loupe
+    const clampedImgX = Math.max(0, Math.min(imgRect.width, clientX - imgRect.left));
+    const clampedImgY = Math.max(0, Math.min(imgRect.height, clientY - imgRect.top));
+
+    const bgX = (clampedImgX * this.zoomLevel) - loupeRadius;
+    const bgY = (clampedImgY * this.zoomLevel) - loupeRadius;
+    this.loupe.style.backgroundPosition = `-${bgX}px -${bgY}px`;
+  }
+
   bindEvents() {
-    // Close on backdrop or close button
+    // Close button & Esc
     const closeBtn = document.getElementById('macro-modal-close');
     if (closeBtn) closeBtn.onclick = () => this.close();
 
-    this.modal.addEventListener('click', (e) => {
-      if (e.target === this.modal) this.close();
-    });
+    if (this.modal) {
+      this.modal.addEventListener('click', (e) => {
+        if (e.target === this.modal) this.close();
+      });
+    }
 
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && !this.modal.classList.contains('hidden')) {
+      if (e.key === 'Escape' && this.modal && !this.modal.classList.contains('hidden')) {
         this.close();
       }
     });
@@ -244,79 +363,116 @@ class MacroViewer {
       });
     }
 
-    // View mode switch buttons (Detail vs Scale)
+    // Quick Zoom In / Out buttons
+    const zoomPlus = document.getElementById('macro-zoom-plus');
+    if (zoomPlus) {
+      zoomPlus.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.setZoom(this.zoomLevel + 0.5);
+      });
+    }
+
+    const zoomMinus = document.getElementById('macro-zoom-minus');
+    if (zoomMinus) {
+      zoomMinus.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.setZoom(this.zoomLevel - 0.5);
+      });
+    }
+
+    // View mode switch buttons
     const detailBtn = document.getElementById('macro-mode-detail-btn');
     if (detailBtn) {
-      detailBtn.addEventListener('click', () => {
-        this.setViewMode('detail');
-      });
+      detailBtn.addEventListener('click', () => this.setViewMode('detail'));
     }
 
     const scaleBtn = document.getElementById('macro-mode-scale-btn');
     if (scaleBtn) {
-      scaleBtn.addEventListener('click', () => {
-        this.setViewMode('scale');
-      });
+      scaleBtn.addEventListener('click', () => this.setViewMode('scale'));
     }
 
-    // Filter buttons
+    // Lighting Filter buttons
     document.querySelectorAll('.lighting-filter-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         this.setFilter(btn.dataset.filter);
       });
     });
 
-    // Mouse movement inside image container for loupe
-    const container = document.getElementById('macro-image-stage');
+    const container = this.stage || document.getElementById('macro-image-stage');
     if (!container) return;
 
-    const moveLoupe = (e) => {
-      const rect = this.image.getBoundingClientRect();
-      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-
-      const x = clientX - rect.left;
-      const y = clientY - rect.top;
-
-      // Check if mouse is over the image
-      if (x < 0 || y < 0 || x > rect.width || y > rect.height) {
-        this.loupe.style.opacity = '0';
-        return;
-      }
-
-      this.loupe.style.opacity = '1';
-
-      // Position loupe centered at cursor
-      const loupeRadius = this.loupe.offsetWidth / 2;
-      this.loupe.style.left = `${x - loupeRadius}px`;
-      this.loupe.style.top = `${y - loupeRadius}px`;
-
-      // Position background in loupe to show magnified coordinates
-      const bgX = (x * this.zoomLevel) - loupeRadius;
-      const bgY = (y * this.zoomLevel) - loupeRadius;
-
-      this.loupe.style.backgroundPosition = `-${bgX}px -${bgY}px`;
+    // Mouse Movement
+    const onMouseMove = (e) => {
+      this.renderLoupe(e.clientX, e.clientY);
     };
 
-    container.addEventListener('mousemove', moveLoupe);
+    container.addEventListener('mousemove', onMouseMove);
+    container.addEventListener('mouseenter', onMouseMove);
     container.addEventListener('mouseleave', () => {
-      this.loupe.style.opacity = '0';
+      if (this.loupe) this.loupe.style.opacity = '0';
     });
 
-    container.addEventListener('touchmove', moveLoupe, { passive: true });
-    container.addEventListener('touchend', () => {
-      this.loupe.style.opacity = '0';
-    });
+    // Mouse Wheel Zoom on image stage
+    container.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const step = e.deltaY < 0 ? 0.3 : -0.3;
+      this.setZoom(this.zoomLevel + step);
+      this.renderLoupe(e.clientX, e.clientY);
+    }, { passive: false });
 
+    // Touch Support for mobile/tablets
+    const onTouch = (e) => {
+      if (!e.touches || e.touches.length === 0) return;
+      e.preventDefault(); // prevent background scroll while inspecting
+      const t = e.touches[0];
+      this.renderLoupe(t.clientX, t.clientY);
+    };
+
+    container.addEventListener('touchstart', onTouch, { passive: false });
+    container.addEventListener('touchmove', onTouch, { passive: false });
+
+    // Click to cycle zoom level: 3.5x -> 5.5x -> 8.0x -> 2.5x
+    if (this.image) {
+      this.image.addEventListener('click', (e) => {
+        let nextZoom = 3.5;
+        if (this.zoomLevel < 3.0) nextZoom = 4.0;
+        else if (this.zoomLevel < 5.0) nextZoom = 6.0;
+        else if (this.zoomLevel < 7.5) nextZoom = 8.0;
+        else nextZoom = 2.5;
+
+        this.setZoom(nextZoom);
+        this.renderLoupe(e.clientX, e.clientY);
+      });
+    }
+
+    // Window resize & orientation change
     window.addEventListener('resize', () => {
-      if (!this.modal.classList.contains('hidden')) {
+      if (this.modal && !this.modal.classList.contains('hidden')) {
         this.updateLoupeBackgroundSize();
+        if (this.lastPointerPos) {
+          this.renderLoupe(this.lastPointerPos.x, this.lastPointerPos.y);
+        }
       }
     });
   }
 }
 
-// Global initialization
-window.addEventListener('DOMContentLoaded', () => {
-  window.macroViewer = new MacroViewer();
-});
+// Global initialization & helper
+function initGlobalMacroViewer() {
+  if (!window.macroViewer) {
+    window.macroViewer = new MacroViewer();
+  }
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initGlobalMacroViewer);
+} else {
+  initGlobalMacroViewer();
+}
+
+window.openMacroViewer = function(artworkId) {
+  initGlobalMacroViewer();
+  if (window.macroViewer) {
+    window.macroViewer.open(artworkId);
+  }
+};
