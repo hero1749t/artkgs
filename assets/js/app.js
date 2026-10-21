@@ -151,15 +151,6 @@ function renderGallery(activeCategory = 'all') {
           </button>
         </div>
       </div>
-
-        <div class="pt-3 border-t border-stone-800/60 flex items-center justify-between text-xs">
-          <span class="text-stone-400 truncate max-w-[180px] font-light">${art.medium}</span>
-          <button class="inquire-quick-link text-amber-400 hover:text-amber-300 font-medium inline-flex items-center gap-1 group/btn" data-id="${art.id}">
-            Book Art
-            <svg class="w-3.5 h-3.5 transform group-hover/btn:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-          </button>
-        </div>
-      </div>
     `;
 
     // Click on image opens Macro Viewer
