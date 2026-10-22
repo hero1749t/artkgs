@@ -1,69 +1,399 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://artkgs.vercel.app/</loc>
-    <lastmod>2026-09-13</lastmod>
-    <changefreq>weekly</changefreq>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>daily</changefreq>
     <priority>1.0</priority>
     <image:image>
-      <image:loc>https://artkgs.vercel.app/assets/images/artworks/enhanced/art_page_10.jpg</image:loc>
-      <image:caption>Lord Ram Temple Miniature Pencil Lead Carving - Harsh ArtKGS Rishikesh</image:caption>
-      <image:title>Lord Ram Temple Miniature Pencil Lead Carving - Harsh ArtKGS Rishikesh</image:title>
-      <image:geo_location>Rishikesh, Uttarakhand</image:geo_location>
-    </image:image>
-    <image:image>
-      <image:loc>https://artkgs.vercel.app/assets/images/artworks/enhanced/art_page_11.jpg</image:loc>
-      <image:caption>Lakshman Jhula Bridge Carved on 0.5mm Pencil Lead - ArtKGS</image:caption>
-      <image:title>Lakshman Jhula Bridge Carved on 0.5mm Pencil Lead - ArtKGS</image:title>
-      <image:geo_location>Rishikesh, Uttarakhand</image:geo_location>
-    </image:image>
-    <image:image>
-      <image:loc>https://artkgs.vercel.app/assets/images/artworks/enhanced/art_page_12.jpg</image:loc>
-      <image:caption>Kedarnath Divine Himalayan Temple Canvas Painting by Harsh</image:caption>
-      <image:title>Kedarnath Divine Himalayan Temple Canvas Painting by Harsh</image:title>
-      <image:geo_location>Rishikesh, Uttarakhand</image:geo_location>
-    </image:image>
-    <image:image>
-      <image:loc>https://artkgs.vercel.app/assets/images/artworks/enhanced/art_page_14.jpg</image:loc>
-      <image:caption>Microscopic Graphite Veena Classical Instrument Carving - Harsh ArtKGS</image:caption>
-      <image:title>Microscopic Graphite Veena Classical Instrument Carving - Harsh ArtKGS</image:title>
-      <image:geo_location>Rishikesh, Uttarakhand</image:geo_location>
-    </image:image>
-    <image:image>
-      <image:loc>https://artkgs.vercel.app/assets/images/artworks/enhanced/art_page_15.jpg</image:loc>
-      <image:caption>Gautam Buddha Serenity Pencil Tip Carving - ArtKGS</image:caption>
-      <image:title>Gautam Buddha Serenity Pencil Tip Carving - ArtKGS</image:title>
-      <image:geo_location>Rishikesh, Uttarakhand</image:geo_location>
-    </image:image>
-    <image:image>
-      <image:loc>https://artkgs.vercel.app/assets/images/artworks/enhanced/art_page_16.jpg</image:loc>
-      <image:caption>Shivling on 0.5mm Micro Graphite Lead - Harsh</image:caption>
-      <image:title>Shivling on 0.5mm Micro Graphite Lead - Harsh</image:title>
-      <image:geo_location>Rishikesh, Uttarakhand</image:geo_location>
-    </image:image>
-    <image:image>
-      <image:loc>https://artkgs.vercel.app/assets/images/artworks/enhanced/art_page_18.jpg</image:loc>
-      <image:caption>Custom Name Initial Miniature Lead Sculpture - ArtKGS</image:caption>
-      <image:title>Custom Name Initial Miniature Lead Sculpture - ArtKGS</image:title>
-      <image:geo_location>Rishikesh, Uttarakhand</image:geo_location>
-    </image:image>
-    <image:image>
-      <image:loc>https://artkgs.vercel.app/assets/images/artworks/enhanced/art_page_20.jpg</image:loc>
-      <image:caption>Maa Ganga Divine Ghat Canvas Painting Rishikesh - Harsh</image:caption>
-      <image:title>Maa Ganga Divine Ghat Canvas Painting Rishikesh - Harsh</image:title>
-      <image:geo_location>Rishikesh, Uttarakhand</image:geo_location>
-    </image:image>
-    <image:image>
-      <image:loc>https://artkgs.vercel.app/assets/images/artworks/youtube_real/enhanced/pencil_temple_art.jpg</image:loc>
-      <image:caption>Hand-chiseled Temple Micro Graphite Sculpture - Harsh ArtKGS</image:caption>
-      <image:title>Hand-chiseled Temple Micro Graphite Sculpture - Harsh ArtKGS</image:title>
-      <image:geo_location>Rishikesh, Uttarakhand</image:geo_location>
-    </image:image>
-    <image:image>
       <image:loc>https://artkgs.vercel.app/assets/images/branding/harsh_avatar.jpg</image:loc>
-      <image:caption>Harsh - Indian Miniature Pencil Lead Sculptor and Painter ArtKGS</image:caption>
-      <image:title>Harsh - Indian Miniature Pencil Lead Sculptor and Painter ArtKGS</image:title>
-      <image:geo_location>Rishikesh, Uttarakhand</image:geo_location>
+      <image:title>Harsh - Miniature Pencil Sculptor &amp; Fine Artist ArtKGS Rishikesh</image:title>
+      <image:caption>Artist Harsh crafting microscopic graphite sculptures on pencil tips in Rishikesh, Uttarakhand, India</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/portfolio_2026/01_burden_of_giving_birth_detail.jpg</image:loc>
+      <image:title>Burden Of Giving Birth - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>A poignant philosophical sculpture of womanhood. Society claims a woman is incomplete without offspring, yet she is intrinsically whole within herself. Cut whole from a single graphite rod without any added elements.</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/portfolio_2026/01_burden_of_giving_birth_scale.jpg</image:loc>
+      <image:title>Burden Of Giving Birth (Millimeter Scale Verified) - ArtKGS</image:title>
+      <image:caption>Microscopic graphite detail of Burden Of Giving Birth measured against a millimeter scale ruler</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/portfolio_2026/02_turbaned_figure_detail.jpg</image:loc>
+      <image:title>Turbaned Figure - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>An enigmatic silhouette crowned by a traditional turban. Leaving facial features indeterminate reflects Harsh&apos;s guiding philosophy: &apos;Incompleteness as wholeness&apos;.</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/portfolio_2026/02_turbaned_figure_scale.jpg</image:loc>
+      <image:title>Turbaned Figure (Millimeter Scale Verified) - ArtKGS</image:title>
+      <image:caption>Microscopic graphite detail of Turbaned Figure measured against a millimeter scale ruler</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/portfolio_2026/03_budha_detail.jpg</image:loc>
+      <image:title>Budha (Buddha in Pencil Niche) - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>A serene meditative Buddha carved into the core graphite while preserving the wooden pencil body as an arched meditation cave (niche).</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/portfolio_2026/03_budha_scale.jpg</image:loc>
+      <image:title>Budha (Buddha in Pencil Niche) (Millimeter Scale Verified) - ArtKGS</image:title>
+      <image:caption>Microscopic graphite detail of Budha (Buddha in Pencil Niche) measured against a millimeter scale ruler</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/portfolio_2026/04_bhootnath_temple_detail.jpg</image:loc>
+      <image:title>Bhootnath Temple, Rishikesh - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>The revered multi-tiered shikhara of Bhootnath Temple towering above Swargashram in Rishikesh, micro-chiseled on a single pencil tip measuring only 9 millimetres.</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/portfolio_2026/04_bhootnath_temple_scale.jpg</image:loc>
+      <image:title>Bhootnath Temple, Rishikesh (Millimeter Scale Verified) - ArtKGS</image:title>
+      <image:caption>Microscopic graphite detail of Bhootnath Temple, Rishikesh measured against a millimeter scale ruler</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/portfolio_2026/05_nandi_detail.jpg</image:loc>
+      <image:title>Nandi - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>Lord Shiva&apos;s sacred mount Nandi carved in patient devotion atop an 8mm pedestal. The calm, unmoving gaze embodies unwavering focus and spiritual surrender.</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/portfolio_2026/05_nandi_scale.jpg</image:loc>
+      <image:title>Nandi (Millimeter Scale Verified) - ArtKGS</image:title>
+      <image:caption>Microscopic graphite detail of Nandi measured against a millimeter scale ruler</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/portfolio_2026/06_kedarnath_temple_detail.jpg</image:loc>
+      <image:title>Kedarnath Temple (Lead Carving) - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>The divine Kedarnath Himalayan temple hand-carved whole from a single pencil lead. The sanctum shikhara, amlaka, and entrance hall stand within just 1.2 centimetres.</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/portfolio_2026/06_kedarnath_temple_scale.jpg</image:loc>
+      <image:title>Kedarnath Temple (Lead Carving) (Millimeter Scale Verified) - ArtKGS</image:title>
+      <image:caption>Microscopic graphite detail of Kedarnath Temple (Lead Carving) measured against a millimeter scale ruler</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/portfolio_2026/07_pad_detail.jpg</image:loc>
+      <image:title>Pad - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>A bold social statement in micro-sculpture. Addressing menstrual awareness and breaking hypocritical taboos surrounding women&apos;s hygiene, carved on a 1.2cm pencil tip.</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/portfolio_2026/07_pad_scale.jpg</image:loc>
+      <image:title>Pad (Millimeter Scale Verified) - ArtKGS</image:title>
+      <image:caption>Microscopic graphite detail of Pad measured against a millimeter scale ruler</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/portfolio_2026/08_self_centricity_detail.jpg</image:loc>
+      <image:title>Self-Centricity - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>A psychological study of human nature. The spiraling human torso turning inward upon itself represents modern ego and self-absorption, sculpted from 1.9cm graphite.</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/portfolio_2026/08_self_centricity_scale.jpg</image:loc>
+      <image:title>Self-Centricity (Millimeter Scale Verified) - ArtKGS</image:title>
+      <image:caption>Microscopic graphite detail of Self-Centricity measured against a millimeter scale ruler</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/portfolio_2026/09_janki_jhula_pul_detail.jpg</image:loc>
+      <image:title>Janki Jhula Pul, Rishikesh - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>The suspension towers, vertical stay cables, and pedestrian span of Janki Jhula bridge crossing the sacred waters of Maa Ganga, hollowed whole from a single pencil.</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/portfolio_2026/09_janki_jhula_pul_scale.jpg</image:loc>
+      <image:title>Janki Jhula Pul, Rishikesh (Millimeter Scale Verified) - ArtKGS</image:title>
+      <image:caption>Microscopic graphite detail of Janki Jhula Pul, Rishikesh measured against a millimeter scale ruler</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/portfolio_2026/10_peacock_05mm_lead_detail.jpg</image:loc>
+      <image:title>Peacock on a 0.5 mm Mechanical Pencil Lead - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>An extraordinary technical feat. While most carvers use 2B thick pencils, Harsh created this peacock perched on a razor-thin 0.5 mm mechanical graphite lead.</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/portfolio_2026/10_peacock_05mm_lead_scale.jpg</image:loc>
+      <image:title>Peacock on a 0.5 mm Mechanical Pencil Lead (Millimeter Scale Verified) - ArtKGS</image:title>
+      <image:caption>Microscopic graphite detail of Peacock on a 0.5 mm Mechanical Pencil Lead measured against a millimeter scale ruler</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/portfolio_2026/11_a_falling_man_detail.jpg</image:loc>
+      <image:title>A Falling Man - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>A hat-wearing gentleman figure stooping under psychological and physical weight. Captures existential vulnerability in less than 1 centimetre of carved graphite.</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/portfolio_2026/11_a_falling_man_scale.jpg</image:loc>
+      <image:title>A Falling Man (Millimeter Scale Verified) - ArtKGS</image:title>
+      <image:caption>Microscopic graphite detail of A Falling Man measured against a millimeter scale ruler</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/portfolio_2026/12_the_hornbill_detail.jpg</image:loc>
+      <image:title>The Hornbill - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>The curved casque and bill of the Great Hornbill sculpted and joined atop a pencil tip. The avian posture captures alertness and elegance at 1.1 cm height.</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/portfolio_2026/12_the_hornbill_scale.jpg</image:loc>
+      <image:title>The Hornbill (Millimeter Scale Verified) - ArtKGS</image:title>
+      <image:caption>Microscopic graphite detail of The Hornbill measured against a millimeter scale ruler</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/portfolio_2026/13_the_broken_chair_of_india_detail.jpg</image:loc>
+      <image:title>The Broken Chair of India - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>The smallest masterpiece in the collection at just 5 millimetres. The broken leg and backrest of the chair stand as a solemn socio-political witness to institutional fragility.</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/portfolio_2026/13_the_broken_chair_of_india_scale.jpg</image:loc>
+      <image:title>The Broken Chair of India (Millimeter Scale Verified) - ArtKGS</image:title>
+      <image:caption>Microscopic graphite detail of The Broken Chair of India measured against a millimeter scale ruler</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/portfolio_2026/14_veena_detail.jpg</image:loc>
+      <image:title>Veena - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>A timeless homage to Indian classical music. The delicate curve of the neck, fretboard, and resonant gourd joined with millimeter-level precision.</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/portfolio_2026/14_veena_scale.jpg</image:loc>
+      <image:title>Veena (Millimeter Scale Verified) - ArtKGS</image:title>
+      <image:caption>Microscopic graphite detail of Veena measured against a millimeter scale ruler</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/portfolio_2026/15_patra_detail.jpg</image:loc>
+      <image:title>Patra - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>The monastic bowl (patra) held aloft by slender arms. It symbolizes renunciation of ego and the inner quest for triumph over self, echoing Himalayan ascetic traditions.</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/portfolio_2026/15_patra_scale.jpg</image:loc>
+      <image:title>Patra (Millimeter Scale Verified) - ArtKGS</image:title>
+      <image:caption>Microscopic graphite detail of Patra measured against a millimeter scale ruler</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/portfolio_2026/16_ganpati_detail.jpg</image:loc>
+      <image:title>Ganpati - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>Lord Ganesha&apos;s curved trunk, modak hand, and seated blessing form sculpted at a staggering 7 millimetre scale with assembled graphite finesse.</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/portfolio_2026/16_ganpati_scale.jpg</image:loc>
+      <image:title>Ganpati (Millimeter Scale Verified) - ArtKGS</image:title>
+      <image:caption>Microscopic graphite detail of Ganpati measured against a millimeter scale ruler</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/enhanced/03_clay_bust_portrait.jpeg</image:loc>
+      <image:title>Portrait Bust — Elder Study - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>Richly detailed figurative clay study depicting the wisdom, wrinkles, and structural facial anatomy of an elder.</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/enhanced/04_bhagat_singh_clay_bust.jpeg</image:loc>
+      <image:title>Bhagat Singh — Bust - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>Intensely expressive oil-clay bust of the revolutionary martyr Bhagat Singh, complete with his signature fedora hat, resolute jawline, and fiery gaze.</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/enhanced/05_handpainted_clay_horse.jpeg</image:loc>
+      <image:title>Horse — Dynamic Study - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>A dynamic equine sculpture in mid-stride. Muscular definitions, saddle gear, and posture hand-painted in warm terracotta and black tones.</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/enhanced/07_nested_figures_pencil_study.jpeg</image:loc>
+      <image:title>Nested Figures Study - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>A human silhouette sculpted into the tip of a lead pencil. The shoulders, torso, and facial planes emerge seamlessly from the raw wooden bevel.</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/enhanced/11_ram_jhula_gazebo_painting.jpeg</image:loc>
+      <image:title>Ram Jhula Gazebo - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>The peaceful riverside gazebo near Ram Jhula where seekers meditate at dawn, shaded by cascading willows and holy ghat stones.</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/enhanced/12_janki_setu_bridge_painting.jpeg</image:loc>
+      <image:title>Janki Setu Bridge - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>The vibrant orange and grey cables of Janki Setu stretching over the rushing turquoise Ganga with Shivalik foothills basking under daylight.</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/enhanced/13_temple_shikharas_rishikesh.jpeg</image:loc>
+      <image:title>Temple Shikharas, Rishikesh - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>Geometric cubist interpretation of ancient temple towers rising over riverside ashrams in warm terracotta, ochre, and sand tones.</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/enhanced/14_ganga_and_trishul_painting.jpeg</image:loc>
+      <image:title>Ganga &amp; Trishul - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>The emerald blue waters of sacred river Ganga meandering like a serpent of light, guarded by Lord Shiva&apos;s radiant golden Trishul.</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/enhanced/15_chholiya_dancer_uttarakhand.jpeg</image:loc>
+      <image:title>Chholiya Dancer, Uttarakhand - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>Vibrant depiction of the ancient martial folk dance of Kumaon and Garhwal. Swirling pleated red-blue robes, brass cymbals, and ceremonial martial energy.</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/enhanced/16_cobra_geometric_abstract.jpeg</image:loc>
+      <image:title>Cobra — Geometric Study - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>Sacred serpent Nagraj broken into harmonious geometric facets and earthy muted tones, blending tribal iconography with contemporary modernism.</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/enhanced/17_political_satire_ink_art.jpeg</image:loc>
+      <image:title>Political Satire — Editorial Ink - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>Hard-hitting ink editorial cartoon depicting the common citizen under political rhetoric, balanced between the scales of justice and political puppetry.</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/enhanced/18_traveller_at_dusk_watercolour.jpeg</image:loc>
+      <image:title>Traveller at Dusk - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>A solitary seeker journeying across serene Himalayan mountain paths under twilight skies, bathed in soft indigo and amber washes.</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/enhanced/19_mountain_lake_acrylic.jpeg</image:loc>
+      <image:title>Mountain Lake - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>Tranquil high-altitude alpine lake cradled between rugged Himalayan slopes, painted in deep cobalt and emerald water reflections.</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/enhanced/20_kedarnath_majestic_shrine.jpeg</image:loc>
+      <image:title>Kedarnath - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>The sanctum of Kedarnath standing against towering snow-covered Himalayan summits. Foreground features the golden Trishul and Nandi bull awaiting the Lord.</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/enhanced/21_jug_and_apples_still_life.jpeg</image:loc>
+      <image:title>Jug and Apples — Still Life - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>Classical academic still life study exploring light fall, earthen textures of a glazed clay jug, and crisp tonal shadows on fresh apples.</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/enhanced/22_family_portrait_commission.jpeg</image:loc>
+      <image:title>Family Portrait - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>Multi-figure family commission capturing generations together with warmth, individual personality, and authentic Indian attire.</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/enhanced/23_wedding_portrait_commission.jpeg</image:loc>
+      <image:title>Wedding Portrait - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>Commissioned wedding portrait capturing the radiant smiles, bridal jewelry, mangalsutra, and intricate zari embroidery on the bride&apos;s crimson lehenga.</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/enhanced/24_haldi_ceremony_portrait.jpeg</image:loc>
+      <image:title>Haldi - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>Joyful celebratory portrait of a bride during her Haldi ritual, featuring vibrant turmeric paste on her cheek and the iconic Garhwali/Kumaoni golden Nath.</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/enhanced/25_reverie_spiritual_flow.jpeg</image:loc>
+      <image:title>Reverie - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>Surrealistic exploration of spiritual ecstasy where flowing hair transitions into swirling cosmic forms, embracing fetal rebirth and emotional liberation.</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/enhanced/26_portrait_study_glasses.jpeg</image:loc>
+      <image:title>Portrait Study (Gentleman with Glasses) - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>Realistic figurative study capturing contemplation, warm skin tones, and subtle wireframe spectacles rendered in fine colour pencil strokes.</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/enhanced/27_portrait_study_leather_jacket.jpeg</image:loc>
+      <image:title>Portrait Study (Youth in Leather Jacket) - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>Expressive modern portrait study rendering realistic leather sheen, zipper textures, and a determined, youthful gaze.</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/enhanced/28_portrait_study_young_girl.jpeg</image:loc>
+      <image:title>Portrait Study (Innocence) - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>Delicate portrait study of a young village girl with pigtails, conveying pure innocence, bright eyes, and warmth with soft colour blending.</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/enhanced/29_bharatanatyam_dancer_mural.jpeg</image:loc>
+      <image:title>Bharatanatyam Dancer - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>Dynamic life-sized mural of a classical Bharatanatyam dancer frozen mid-mudra. Pleated saffron and crimson costume radiating temple energy.</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/enhanced/30_peacock_wall_mural.jpeg</image:loc>
+      <image:title>Peacock - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>Lush botanical wall mural featuring an iridescent peacock perched atop a branching tree with rich floral foliage.</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/enhanced/31_skull_study_graphite_hyperrealism.jpeg</image:loc>
+      <image:title>Skull Study - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>Academic anatomical study of human cranial structure. Deep tonal contrast showing cranial sutures, nasal cavity depth, and porcelain-like enamel of the teeth.</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/enhanced/32_bighorn_ram_wildlife.jpeg</image:loc>
+      <image:title>Bighorn Ram - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>Striking wildlife study of a mountain ram with spiraling curled horns against an opaque black background. Fur fiber texture and horn growth rings rendered with remarkable finesse.</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/enhanced/33_dog_portrait_commission.jpeg</image:loc>
+      <image:title>Dog Portrait - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>Expressive colour-pencil portrait of a beloved family dog, capturing moist eyes, individual fur textures, and joyful loyal expression.</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/enhanced/34_hellboy_sci_fi_art.jpeg</image:loc>
+      <image:title>Hellboy - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>Intricate sci-fi character portrait of the iconic anti-hero Hellboy, featuring saturated crimson skin, stone horn stumps, and dramatic cross-lit shadows.</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/enhanced/35_coca_cola_bottle_hyperrealism.jpeg</image:loc>
+      <image:title>Coca-Cola Bottle - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>Flawless hyperrealistic rendering of an iconic contour glass bottle. The condensation beads, glass refraction, and crimped metal cap are indistinguishable from photography.</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/enhanced/36_serpent_kiss_hyperrealism.jpeg</image:loc>
+      <image:title>Serpent&apos;s Kiss - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>Surreal, provocative, and technically astounding hyperrealistic drawing depicting a viper emerging from parted lips, exploring raw tension and reptile scale patterns.</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/enhanced/37_harsh_at_work_lion_painting.jpeg</image:loc>
+      <image:title>At Work — Lion Painting - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>Harsh immersed in painting fine mane details on a massive lion canvas at his Rishikesh studio.</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/enhanced/38_rishikesh_bazar_work_in_progress.jpeg</image:loc>
+      <image:title>Rishikesh Bazar (Work in Progress) - Miniature Pencil Lead Carving ArtKGS</image:title>
+      <image:caption>Day 2 work in progress capturing the vanishing point perspective and colorful shop canopies of Rishikesh&apos;s bustling market streets.</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
     </image:image>
   </url>
 </urlset>
