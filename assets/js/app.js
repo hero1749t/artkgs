@@ -5,6 +5,20 @@ document.addEventListener('DOMContentLoaded', () => {
   initApp();
 });
 
+function getActiveCatalog() {
+  if (window.ArtkgsSync && typeof window.ArtkgsSync.getLiveCatalog === 'function') {
+    const live = window.ArtkgsSync.getLiveCatalog();
+    if (Array.isArray(live) && live.length > 0) return live;
+  }
+  if (window.ARTKGS_CATALOG && Array.isArray(window.ARTKGS_CATALOG)) {
+    return window.ARTKGS_CATALOG;
+  }
+  if (typeof ARTKGS_CATALOG !== 'undefined' && Array.isArray(ARTKGS_CATALOG)) {
+    return ARTKGS_CATALOG;
+  }
+  return [];
+}
+
 function initApp() {
   // 1. Initialize 3D Stage
   if (document.getElementById('pencil-3d-container')) {
@@ -40,6 +54,60 @@ function initApp() {
 
   // 8. Dynamic Header Scroll Effect
   setupHeaderScroll();
+
+  // 9. Dynamic Hero Wall Hydration (if custom items exist in live catalog)
+  hydrateHeroArtWall();
+}
+
+// Hydrate Hero Art Wall from Live Catalog
+function hydrateHeroArtWall() {
+  const wallGrid = document.querySelector('#hero-art-wall .grid');
+  if (!wallGrid) return;
+
+  const catalog = getActiveCatalog();
+  if (!catalog || catalog.length === 0) return;
+
+  // Filter hero items, fallback to first 12
+  let heroItems = catalog.filter(a => a.isHero);
+  if (heroItems.length === 0) {
+    heroItems = catalog.slice(0, 12);
+  } else if (heroItems.length > 12) {
+    heroItems = heroItems.slice(0, 12);
+  }
+
+  // Check if any hero item was edited or custom added
+  const hasCustomEdits = Boolean(localStorage.getItem('ARTKGS_LIVE_CATALOG'));
+  if (!hasCustomEdits) {
+    // Keep high-performance static HTML intact if no custom edits
+    return;
+  }
+
+  wallGrid.innerHTML = heroItems.map((art, idx) => {
+    const isSingle = art.discipline && art.discipline.toLowerCase().includes('assembled') ? '🧩 Assembled' : '✏️ Single-Piece';
+    const displaySize = art.size || art.dimensions || '';
+
+    return `
+      <div class="rounded-2xl overflow-hidden bg-stone-900 border border-stone-800 hover:border-amber-500/70 transition-all duration-300 group relative aspect-[3/4] cursor-pointer select-none active:scale-[0.98] shadow-xl hero-card-item" data-macro-artwork="${art.id}" role="button" tabindex="0" style="touch-action: manipulation;" onclick="window.openMacroViewer('${art.id}')">
+        <img src="${art.image}" alt="${art.title}" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" loading="lazy">
+        <div class="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/20 to-transparent pointer-events-none"></div>
+        <span class="absolute top-2.5 left-2.5 text-[10px] font-mono tracking-wider px-2 py-0.5 rounded-full bg-stone-950/80 text-amber-300 border border-amber-500/30 backdrop-blur-md pointer-events-none">
+          ${isSingle}
+        </span>
+        ${displaySize ? `
+          <span class="absolute top-2.5 right-2.5 text-[10px] font-mono px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 backdrop-blur-md pointer-events-none">
+            📏 ${displaySize}
+          </span>
+        ` : ''}
+        <div class="absolute bottom-2.5 left-2.5 right-2.5 flex items-center justify-between pointer-events-none">
+          <div class="truncate">
+            <span class="font-serif text-xs font-bold text-white group-hover:text-amber-300 block truncate">${art.title}</span>
+            ${art.hindiTitle ? `<span class="text-[10px] font-devanagari text-amber-400/80 block truncate">${art.hindiTitle}</span>` : ''}
+          </div>
+          <span class="text-amber-400 text-xs flex-shrink-0">🔎</span>
+        </div>
+      </div>
+    `;
+  }).join('');
 }
 
 // Render Gallery Cards dynamically
@@ -47,17 +115,19 @@ function renderGallery(activeCategory = 'all') {
   const container = document.getElementById('art-gallery-grid');
   if (!container) return;
 
-  let filtered = ARTKGS_CATALOG;
+  const catalog = getActiveCatalog();
+
+  let filtered = catalog;
   if (activeCategory === 'single-piece') {
-    filtered = ARTKGS_CATALOG.filter(item => item.category === 'single-piece');
+    filtered = catalog.filter(item => item.category === 'single-piece');
   } else if (activeCategory === 'assembled') {
-    filtered = ARTKGS_CATALOG.filter(item => item.category === 'assembled');
+    filtered = catalog.filter(item => item.category === 'assembled');
   } else if (activeCategory === 'pencil') {
-    filtered = ARTKGS_CATALOG.filter(item => item.category === 'single-piece' || item.category === 'assembled' || item.category === 'pencil');
+    filtered = catalog.filter(item => item.category === 'single-piece' || item.category === 'assembled' || item.category === 'pencil');
   } else if (activeCategory === 'hyperrealism') {
-    filtered = ARTKGS_CATALOG.filter(item => item.category === 'hyperrealism' || item.category === 'satire' || item.category === 'murals');
+    filtered = catalog.filter(item => item.category === 'hyperrealism' || item.category === 'satire' || item.category === 'murals');
   } else if (activeCategory !== 'all') {
-    filtered = ARTKGS_CATALOG.filter(item => item.category === activeCategory);
+    filtered = catalog.filter(item => item.category === activeCategory);
   }
 
   container.innerHTML = '';
@@ -84,7 +154,7 @@ function renderGallery(activeCategory = 'all') {
     const displaySize = art.size || art.dimensions || '';
 
     card.innerHTML = `
-      <div class="relative overflow-hidden aspect-[4/5] bg-stone-950 flex items-center justify-center cursor-pointer art-image-wrap" data-id="${art.id}">
+      <div class="relative overflow-hidden aspect-[4/5] bg-stone-950 flex items-center justify-center cursor-pointer select-none art-image-wrap" data-id="${art.id}" data-macro-artwork="${art.id}" role="button" tabindex="0" style="touch-action: manipulation;">
         <img 
           src="${art.image}" 
           alt="${art.title}" 
@@ -156,17 +226,13 @@ function renderGallery(activeCategory = 'all') {
     // Click on image opens Macro Viewer
     card.querySelector('.art-image-wrap').addEventListener('click', (e) => {
       if (e.target.closest('.whatsapp-card-btn')) return;
-      if (window.macroViewer) {
-        window.macroViewer.open(art.id);
-      }
+      window.openMacroViewer(art.id);
     });
 
     // Macro Inspect button
     card.querySelector('.macro-inspect-btn').addEventListener('click', (e) => {
       e.stopPropagation();
-      if (window.macroViewer) {
-        window.macroViewer.open(art.id);
-      }
+      window.openMacroViewer(art.id);
     });
 
     // Direct WhatsApp booking button
@@ -233,10 +299,11 @@ function setupFeaturedCarousel() {
   const carouselTrack = document.getElementById('featured-carousel-track');
   if (!carouselTrack) return;
 
-  const featuredItems = ARTKGS_CATALOG.filter(a => a.featured);
+  const catalog = getActiveCatalog();
+  const featuredItems = catalog.filter(a => a.featured);
 
   carouselTrack.innerHTML = featuredItems.map(item => `
-    <div class="carousel-slide flex-shrink-0 w-80 sm:w-96 rounded-2xl overflow-hidden bg-stone-900/80 border border-stone-800 hover:border-amber-500/40 transition-all p-4 cursor-pointer group" data-id="${item.id}">
+    <div class="carousel-slide flex-shrink-0 w-80 sm:w-96 rounded-2xl overflow-hidden bg-stone-900/80 border border-stone-800 hover:border-amber-500/40 transition-all p-4 cursor-pointer group" data-id="${item.id}" onclick="window.openMacroViewer('${item.id}')">
       <div class="relative aspect-video rounded-xl overflow-hidden bg-stone-950 mb-4">
         <img src="${item.thumbnail}" alt="${item.title}" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" />
         <span class="absolute top-3 left-3 text-[10px] font-medium tracking-wider uppercase px-2 py-0.5 rounded-full bg-stone-900/80 text-amber-300 border border-amber-500/30 backdrop-blur-md">
@@ -252,100 +319,87 @@ function setupFeaturedCarousel() {
     </div>
   `).join('');
 
-  carouselTrack.querySelectorAll('.carousel-slide').forEach(slide => {
-    slide.addEventListener('click', () => {
-      if (window.macroViewer) {
-        window.macroViewer.open(slide.dataset.id);
-      }
-    });
-  });
-
-  // Carousel Next/Prev buttons
+  // Auto scroll logic for carousel
+  let scrollAmount = 0;
+  const slideWidth = 340;
+  
   const prevBtn = document.getElementById('carousel-prev');
   const nextBtn = document.getElementById('carousel-next');
 
   if (prevBtn && nextBtn) {
     prevBtn.addEventListener('click', () => {
-      carouselTrack.scrollBy({ left: -340, behavior: 'smooth' });
+      carouselTrack.scrollBy({ left: -slideWidth, behavior: 'smooth' });
     });
     nextBtn.addEventListener('click', () => {
-      carouselTrack.scrollBy({ left: 340, behavior: 'smooth' });
+      carouselTrack.scrollBy({ left: slideWidth, behavior: 'smooth' });
     });
   }
 }
 
-// Theme toggle
+// Theme mode toggle (Warm Gallery Linen vs Midnight Studio)
 function setupThemeToggle() {
   const toggleBtn = document.getElementById('theme-toggle-btn');
   if (!toggleBtn) return;
 
-  let isLight = false;
+  const currentTheme = localStorage.getItem('artkgs_theme') || 'dark';
+  applyTheme(currentTheme);
+
   toggleBtn.addEventListener('click', () => {
-    isLight = !isLight;
-    document.body.classList.toggle('light-gallery-mode', isLight);
-    toggleBtn.innerHTML = isLight 
-      ? `<svg class="w-4 h-4 text-amber-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>`
-      : `<svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>`;
+    const isDark = document.documentElement.classList.contains('dark');
+    const newTheme = isDark ? 'light' : 'dark';
+    applyTheme(newTheme);
+    localStorage.setItem('artkgs_theme', newTheme);
   });
 }
 
-// Audio toggle
+function applyTheme(theme) {
+  if (theme === 'dark') {
+    document.documentElement.classList.add('dark');
+    document.body.classList.remove('theme-linen');
+  } else {
+    document.documentElement.classList.remove('dark');
+    document.body.classList.add('theme-linen');
+  }
+}
+
+// Ambient Audio (Sacred Ganga River & Tibetan Singing Bowl Chime)
 function setupAmbientSound() {
-  const audioBtn = document.getElementById('ambient-sound-btn');
-  if (!audioBtn) return;
+  const audioBtn = document.getElementById('ambient-audio-btn');
+  const audioEl = document.getElementById('ambient-audio');
+  if (!audioBtn || !audioEl) return;
 
   let isPlaying = false;
-  let audioCtx = null;
 
   audioBtn.addEventListener('click', () => {
-    isPlaying = !isPlaying;
-    audioBtn.classList.toggle('sound-active', isPlaying);
-
-    if (isPlaying) {
-      if (!audioCtx) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      }
-      playMeditativeChime(audioCtx);
-      audioBtn.title = "Ambient Chime: Playing";
+    if (!isPlaying) {
+      audioEl.play().then(() => {
+        isPlaying = true;
+        audioBtn.classList.add('active-audio');
+        audioBtn.querySelector('span').textContent = 'Mute Ganga Ambience';
+      }).catch(err => {
+        console.log('Audio autoplay prevented:', err);
+      });
     } else {
-      audioBtn.title = "Ambient Chime: Muted";
+      audioEl.pause();
+      isPlaying = false;
+      audioBtn.classList.remove('active-audio');
+      audioBtn.querySelector('span').textContent = 'Play Ganga Ambience';
     }
   });
 }
 
-function playMeditativeChime(ctx) {
-  if (ctx.state === 'suspended') {
-    ctx.resume();
-  }
-  const osc = ctx.createOscillator();
-  const gain = ctx.createGain();
-
-  osc.type = 'sine';
-  osc.frequency.setValueAtTime(432, ctx.currentTime);
-  osc.frequency.exponentialRampToValueAtTime(864, ctx.currentTime + 3);
-
-  gain.gain.setValueAtTime(0.08, ctx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 4);
-
-  osc.connect(gain);
-  gain.connect(ctx.destination);
-
-  osc.start();
-  osc.stop(ctx.currentTime + 4);
-}
-
-// Header scroll effect
+// Dynamic header scroll effect
 function setupHeaderScroll() {
   const header = document.getElementById('main-header');
   if (!header) return;
 
   window.addEventListener('scroll', () => {
-    if (window.scrollY > 40) {
-      header.classList.add('bg-stone-950/90', 'backdrop-blur-md', 'shadow-2xl', 'border-b', 'border-stone-800/80');
-      header.classList.remove('bg-transparent');
+    if (window.scrollY > 50) {
+      header.classList.add('py-2.5', 'bg-stone-950/95', 'shadow-xl', 'border-amber-500/20');
+      header.classList.remove('py-3.5', 'bg-stone-950/85');
     } else {
-      header.classList.remove('bg-stone-950/90', 'backdrop-blur-md', 'shadow-2xl', 'border-b', 'border-stone-800/80');
-      header.classList.add('bg-transparent');
+      header.classList.remove('py-2.5', 'bg-stone-950/95', 'shadow-xl', 'border-amber-500/20');
+      header.classList.add('py-3.5', 'bg-stone-950/85');
     }
   });
 }

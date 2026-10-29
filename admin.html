@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ArtKGS Studio Admin — Real-Time Content & Catalog Management</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="/assets/images/branding/harsh_avatar.jpg" type="image/jpeg">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Yatra+One&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            gold: {
+              300: '#f3e5ab',
+              400: '#e6ca65',
+              500: '#d4af37',
+              600: '#aa8c2c',
+            }
+          },
+          fontFamily: {
+            serif: ['Cinzel', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            devanagari: ['"Yatra One"', 'cursive']
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    body {
+      background-color: #0c0a09;
+      color: #f5f5f4;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #1c1917;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #44403c;
+      border-radius: 3px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #d4af37;
+    }
+    .active-nav-tab {
+      background-color: rgba(212, 175, 55, 0.15) !important;
+      border-color: rgba(212, 175, 55, 0.6) !important;
+      color: #f3e5ab !important;
+    }
+  </style>
+
+  <!-- Load Master Catalog & Live Sync Module -->
+  <script src="/assets/js/gallery-data.js"></script>
+  <script src="/assets/js/content-sync.js"></script>
+</head>
+<body class="min-h-screen bg-stone-950 text-stone-100 selection:bg-amber-500 selection:text-stone-950">
+
+  <!-- ==================== LOGIN SCREEN (IF NOT AUTHENTICATED) ==================== -->
+  <div id="admin-login-screen" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-950/95 backdrop-blur-2xl">
+    <div class="w-full max-w-md p-8 bg-stone-900/90 border border-amber-900/40 rounded-3xl shadow-2xl relative overflow-hidden text-center">
+      <div class="absolute -top-24 -left-24 w-48 h-48 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-24 -right-24 w-48 h-48 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="w-16 h-16 mx-auto mb-4 rounded-full overflow-hidden border-2 border-amber-500/60 shadow-xl shadow-amber-500/20">
+        <img src="/assets/images/branding/harsh_avatar.jpg" alt="Harsh ArtKGS" class="w-full h-full object-cover">
+      </div>
+
+      <h1 class="font-serif text-2xl font-bold tracking-widest text-stone-100">ARTKGS ADMIN</h1>
+      <p class="text-xs font-mono text-amber-400/90 uppercase tracking-widest mt-1 mb-6">Studio Command &amp; Live Content Portal</p>
+
+      <form id="admin-login-form" class="space-y-4 text-left">
+        <div>
+          <label class="block text-xs font-medium text-stone-300 mb-1.5">Master Studio Passcode</label>
+          <input type="password" id="admin-passcode-input" placeholder="Enter master passcode (default: artkgs2026)" required class="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-200 focus:outline-none focus:border-amber-500 transition-colors">
+        </div>
+
+        <p id="admin-login-error" class="hidden text-xs text-rose-400 font-medium"></p>
+
+        <button type="submit" class="w-full py-3 px-6 bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600 hover:from-amber-500 hover:to-amber-400 text-stone-950 font-bold text-sm rounded-xl shadow-lg shadow-amber-950/40 transition-all transform hover:-translate-y-0.5">
+          Sign In to Portal →
+        </button>
+      </form>
+
+      <div class="mt-6 pt-4 border-t border-stone-800/80 text-[11px] text-stone-500 font-mono">
+        Rishikesh Studio • Incompleteness as Wholeness
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MAIN ADMIN DASHBOARD ==================== -->
+  <div id="admin-dashboard" class="hidden min-h-screen flex flex-col">
+    
+    <!-- Top Global Header -->
+    <header class="sticky top-0 z-40 bg-stone-950/90 backdrop-blur-md border-b border-stone-800/80 px-4 sm:px-8 py-3.5 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <a href="/" target="_blank" class="flex items-center gap-2.5 group">
+          <div class="w-9 h-9 rounded-full overflow-hidden border border-amber-500/60 shadow-md">
+            <img src="/assets/images/branding/harsh_avatar.jpg" alt="ArtKGS" class="w-full h-full object-cover">
+          </div>
+          <div>
+            <span class="font-serif text-lg font-bold tracking-widest text-stone-100 group-hover:text-amber-400 transition-colors block">
+              ARTKGS
+            </span>
+            <span class="text-[10px] font-mono text-amber-400/80 block -mt-1">ADMIN COMMAND PORTAL</span>
+          </div>
+        </a>
+
+        <div class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/25 text-xs font-mono ml-4">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 status-dot-pulse"></span>
+          <span>Live Sync Active</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2.5">
+        <a href="/" target="_blank" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-stone-900 hover:bg-stone-800 border border-stone-700 text-xs font-medium text-stone-200 hover:text-amber-300 transition-colors shadow-sm">
+          <span>👁️ View Live Website</span>
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+        </a>
+
+        <button id="admin-logout-btn" class="px-3 py-2 rounded-xl bg-stone-900 hover:bg-rose-950/40 border border-stone-800 hover:border-rose-500/40 text-stone-400 hover:text-rose-400 text-xs font-medium transition-colors" title="Log Out">
+          🚪 Logout
+        </button>
+      </div>
+    </header>
+
+    <!-- Navigation Tabs Bar -->
+    <nav class="bg-stone-900/60 border-b border-stone-800/80 px-4 sm:px-8 py-2.5 flex items-center gap-2 overflow-x-auto custom-scrollbar">
+      <button class="nav-tab-btn active-nav-tab inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-transparent text-xs font-semibold text-stone-300 transition-all whitespace-nowrap" data-tab="catalog">
+        <span>🎨 Artworks Catalog</span>
+        <span id="tab-artworks-count" class="px-2 py-0.5 text-[10px] font-mono rounded-full bg-amber-500/20 text-amber-300">48</span>
+      </button>
+
+      <button class="nav-tab-btn inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-transparent text-xs font-semibold text-stone-300 transition-all whitespace-nowrap" data-tab="content">
+        <span>✍️ Words &amp; Website Content</span>
+      </button>
+
+      <button class="nav-tab-btn inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-transparent text-xs font-semibold text-stone-300 transition-all whitespace-nowrap" data-tab="contact">
+        <span>📞 Contact &amp; Pricing</span>
+      </button>
+
+      <button class="nav-tab-btn inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-transparent text-xs font-semibold text-stone-300 transition-all whitespace-nowrap" data-tab="export">
+        <span>💾 Backup &amp; Code Export</span>
+      </button>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 p-4 sm:p-8 max-w-7xl mx-auto w-full">
+      
+      <!-- ==================== TAB 1: ARTWORKS CATALOG ==================== -->
+      <section id="tab-catalog" class="tab-pane space-y-6">
+        
+        <!-- Action Toolbar -->
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-stone-900/70 p-4 rounded-2xl border border-stone-800">
+          <div class="flex items-center gap-3 flex-1 max-w-md">
+            <div class="relative w-full">
+              <input type="text" id="artwork-search-input" placeholder="Search artwork title, piece #, medium..." class="w-full bg-stone-950 border border-stone-800 rounded-xl pl-9 pr-4 py-2 text-xs text-stone-200 focus:outline-none focus:border-amber-500 transition-colors">
+              <svg class="w-4 h-4 text-stone-500 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            </div>
+
+            <select id="artwork-category-filter" class="bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-300 focus:outline-none focus:border-amber-500">
+              <option value="all">All Categories</option>
+              <option value="single-piece">Single-Piece Carvings</option>
+              <option value="assembled">Assembled Carvings</option>
+              <option value="devbhoomi">Sacred Himalayan Canvases</option>
+              <option value="sculpture">Clay Busts &amp; Sculptures</option>
+            </select>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button id="add-artwork-btn" class="inline-flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-stone-950 font-bold text-xs rounded-xl shadow-lg shadow-amber-950/40 transition-all transform hover:-translate-y-0.5">
+              <span>+ Add New Artwork</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Artworks Grid Container -->
+        <div id="admin-artworks-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <!-- Populated dynamically via JS -->
+        </div>
+
+      </section>
+
+      <!-- ==================== TAB 2: WORDS & WEBSITE CONTENT ==================== -->
+      <section id="tab-content" class="tab-pane hidden space-y-6">
+        <div class="bg-stone-900/70 p-6 sm:p-8 rounded-2xl border border-stone-800">
+          <div class="mb-6 pb-4 border-b border-stone-800">
+            <h2 class="font-serif text-xl font-bold text-stone-100">Hero Section &amp; Core Philosophy Words</h2>
+            <p class="text-xs text-stone-400 mt-1">Edit every line of text displayed in the hero section and philosophy narrative.</p>
+          </div>
+
+          <form id="site-content-form" class="space-y-5">
+            <div>
+              <label class="block text-xs font-mono uppercase tracking-wider text-amber-400 mb-1">Top Origin Badge Text</label>
+              <input type="text" id="input-heroBadge" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-2.5 text-sm text-stone-200 focus:outline-none focus:border-amber-500">
+            </div>
+
+            <div>
+              <label class="block text-xs font-mono uppercase tracking-wider text-amber-400 mb-1">Main Devanagari Headline (H1)</label>
+              <input type="text" id="input-heroDevanagari" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-2.5 text-sm font-devanagari text-amber-300 focus:outline-none focus:border-amber-500">
+            </div>
+
+            <div>
+              <label class="block text-xs font-mono uppercase tracking-wider text-amber-400 mb-1">English Subtitle</label>
+              <input type="text" id="input-heroSubtitle" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-2.5 text-sm text-stone-200 focus:outline-none focus:border-amber-500">
+            </div>
+
+            <div>
+              <label class="block text-xs font-mono uppercase tracking-wider text-amber-400 mb-1">Hero Bio Narrative Paragraph</label>
+              <textarea id="input-heroBio" rows="3" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-2.5 text-sm text-stone-200 focus:outline-none focus:border-amber-500 leading-relaxed"></textarea>
+            </div>
+
+            <div class="pt-4 border-t border-stone-800">
+              <label class="block text-xs font-mono uppercase tracking-wider text-amber-400 mb-1">Artist Philosophy Narrative</label>
+              <textarea id="input-philosophyText" rows="4" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-2.5 text-sm text-stone-200 focus:outline-none focus:border-amber-500 leading-relaxed"></textarea>
+            </div>
+
+            <div class="pt-4 flex items-center justify-between">
+              <button type="submit" class="px-6 py-3 bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-stone-950 font-bold text-xs rounded-xl shadow-lg transition-all">
+                💾 Save All Website Text
+              </button>
+              <button type="button" id="reset-content-btn" class="px-4 py-2 text-xs text-stone-400 hover:text-stone-200 transition-colors">
+                Reset to Defaults
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- ==================== TAB 3: CONTACT & PRICING ==================== -->
+      <section id="tab-contact" class="tab-pane hidden space-y-6">
+        <div class="bg-stone-900/70 p-6 sm:p-8 rounded-2xl border border-stone-800">
+          <div class="mb-6 pb-4 border-b border-stone-800">
+            <h2 class="font-serif text-xl font-bold text-stone-100">Studio Phone, WhatsApp &amp; Indicative Pricing</h2>
+            <p class="text-xs text-stone-400 mt-1">Update direct hotline numbers, addresses, and indicative commission pricing tiers.</p>
+          </div>
+
+          <form id="contact-pricing-form" class="space-y-5">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-mono uppercase tracking-wider text-amber-400 mb-1">Studio Phone Number (for Direct Call)</label>
+                <input type="text" id="input-studioPhone" placeholder="+91 98706 20748" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-2.5 text-sm text-stone-200 focus:outline-none focus:border-amber-500">
+              </div>
+
+              <div>
+                <label class="block text-xs font-mono uppercase tracking-wider text-amber-400 mb-1">Studio WhatsApp Number (e.g. 919870620748)</label>
+                <input type="text" id="input-studioWhatsapp" placeholder="+91 98706 20748" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-2.5 text-sm text-stone-200 focus:outline-none focus:border-amber-500">
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-mono uppercase tracking-wider text-amber-400 mb-1">Studio Email Address</label>
+                <input type="email" id="input-studioEmail" placeholder="art.kgs143@gmail.com" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-2.5 text-sm text-stone-200 focus:outline-none focus:border-amber-500">
+              </div>
+
+              <div>
+                <label class="block text-xs font-mono uppercase tracking-wider text-amber-400 mb-1">Physical Studio Address</label>
+                <input type="text" id="input-studioAddress" placeholder="Tapovan, Ganga Ghats, Rishikesh, Uttarakhand" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-2.5 text-sm text-stone-200 focus:outline-none focus:border-amber-500">
+              </div>
+            </div>
+
+            <div class="pt-4 border-t border-stone-800">
+              <h3 class="text-xs font-mono uppercase tracking-wider text-emerald-400 font-bold mb-3">Indicative Commission Pricing Tiers</h3>
+              
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div>
+                  <label class="block text-[11px] text-stone-400 mb-1">Personalized Name</label>
+                  <input type="text" id="input-priceNameCarving" placeholder="₹1,499" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-amber-300 font-mono">
+                </div>
+
+                <div>
+                  <label class="block text-[11px] text-stone-400 mb-1">Temple Miniature</label>
+                  <input type="text" id="input-priceTemple" placeholder="₹4,999" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-amber-300 font-mono">
+                </div>
+
+                <div>
+                  <label class="block text-[11px] text-stone-400 mb-1">Single-Piece Masterwork</label>
+                  <input type="text" id="input-priceMasterwork" placeholder="₹9,999" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-amber-300 font-mono">
+                </div>
+
+                <div>
+                  <label class="block text-[11px] text-stone-400 mb-1">Himalayan Canvas</label>
+                  <input type="text" id="input-priceCanvas" placeholder="₹14,999" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-amber-300 font-mono">
+                </div>
+              </div>
+            </div>
+
+            <div class="pt-4">
+              <button type="submit" class="px-6 py-3 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white font-bold text-xs rounded-xl shadow-lg transition-all">
+                💾 Save Contact &amp; Pricing Details
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- ==================== TAB 4: BACKUP & CODE EXPORT ==================== -->
+      <section id="tab-export" class="tab-pane hidden space-y-6">
+        <div class="bg-stone-900/70 p-6 sm:p-8 rounded-2xl border border-stone-800 space-y-6">
+          <div>
+            <h2 class="font-serif text-xl font-bold text-stone-100">Export &amp; Permanent Code Sync</h2>
+            <p class="text-xs text-stone-400 mt-1">Download production-ready code files to commit directly to GitHub or save offline backups.</p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <!-- Export gallery-data.js -->
+            <div class="p-5 rounded-2xl bg-stone-950 border border-stone-800 flex flex-col justify-between">
+              <div>
+                <span class="text-amber-400 text-xl block mb-2">📥</span>
+                <h3 class="font-serif text-base font-bold text-stone-100 mb-1">Download Updated gallery-data.js</h3>
+                <p class="text-xs text-stone-400 font-light mb-4">
+                  Generates the complete, updated JavaScript catalog file containing all your new artworks and photo modifications ready to replace in your codebase.
+                </p>
+              </div>
+              <button id="download-gallery-data-btn" class="w-full py-2.5 px-4 bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-xs rounded-xl shadow transition-all">
+                Download gallery-data.js
+              </button>
+            </div>
+
+            <!-- Export Full JSON Backup -->
+            <div class="p-5 rounded-2xl bg-stone-950 border border-stone-800 flex flex-col justify-between">
+              <div>
+                <span class="text-emerald-400 text-xl block mb-2">💾</span>
+                <h3 class="font-serif text-base font-bold text-stone-100 mb-1">Download Studio Backup (JSON)</h3>
+                <p class="text-xs text-stone-400 font-light mb-4">
+                  Exports a portable JSON backup containing all catalog items, custom texts, and pricing configurations.
+                </p>
+              </div>
+              <button id="download-json-backup-btn" class="w-full py-2.5 px-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl shadow transition-all">
+                Download Complete Backup
+              </button>
+            </div>
+          </div>
+
+          <!-- Restore / Factory Reset -->
+          <div class="pt-6 border-t border-stone-800/80 flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <h4 class="text-xs font-mono uppercase tracking-wider text-rose-400 font-bold">Factory Reset</h4>
+              <p class="text-xs text-stone-500">Reverts all live edits back to the initial 48 masterwork collection.</p>
+            </div>
+            <button id="factory-reset-btn" class="px-4 py-2 bg-stone-950 hover:bg-rose-950/40 text-rose-400 border border-stone-800 hover:border-rose-500/40 rounded-xl text-xs font-medium transition-colors">
+              Reset to Factory Default
+            </button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- ==================== ADD / EDIT ARTWORK MODAL ==================== -->
+  <div id="artwork-editor-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-950/95 backdrop-blur-xl hidden">
+    <div class="w-full max-w-2xl max-h-[92vh] bg-stone-900 rounded-3xl border border-amber-900/40 shadow-2xl p-6 sm:p-8 overflow-y-auto custom-scrollbar flex flex-col justify-between">
+      
+      <div>
+        <div class="flex items-center justify-between pb-4 border-b border-stone-800 mb-5">
+          <div>
+            <h3 id="artwork-modal-heading" class="font-serif text-xl font-bold text-stone-100">Add New Artwork</h3>
+            <p class="text-xs text-stone-400">Fill in details and upload high-res photo.</p>
+          </div>
+          <button id="artwork-modal-close" class="p-2 text-stone-400 hover:text-white rounded-lg hover:bg-stone-800 transition-colors">
+            ✕
+          </button>
+        </div>
+
+        <form id="artwork-editor-form" class="space-y-4">
+          <input type="hidden" id="edit-artwork-id" value="">
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-medium text-stone-300 mb-1">Title (English) *</label>
+              <input type="text" id="edit-title" required class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3.5 py-2 text-xs text-stone-200 focus:outline-none focus:border-amber-500">
+            </div>
+
+            <div>
+              <label class="block text-xs font-medium text-stone-300 mb-1">Hindi Title (Devanagari)</label>
+              <input type="text" id="edit-hindiTitle" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3.5 py-2 text-xs font-devanagari text-amber-300 focus:outline-none focus:border-amber-500">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div>
+              <label class="block text-xs font-medium text-stone-300 mb-1">Category *</label>
+              <select id="edit-category" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:outline-none focus:border-amber-500">
+                <option value="single-piece">Single-Piece Carving</option>
+                <option value="assembled">Assembled Carving</option>
+                <option value="devbhoomi">Sacred Himalayan Canvas</option>
+                <option value="sculpture">Clay Bust / Sculpture</option>
+                <option value="pencil">Pencil Art</option>
+                <option value="hyperrealism">Hyperrealism</option>
+                <option value="commissions">Bespoke Commission</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-medium text-stone-300 mb-1">Piece Number (e.g. 01)</label>
+              <input type="text" id="edit-pieceNumber" placeholder="01" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3.5 py-2 text-xs text-stone-200 focus:outline-none focus:border-amber-500">
+            </div>
+
+            <div>
+              <label class="block text-xs font-medium text-stone-300 mb-1">Discipline Label</label>
+              <input type="text" id="edit-discipline" placeholder="Single-Piece Subtractive" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3.5 py-2 text-xs text-stone-200 focus:outline-none focus:border-amber-500">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div>
+              <label class="block text-xs font-medium text-stone-300 mb-1">Size / Scale (e.g. 2.5 cm)</label>
+              <input type="text" id="edit-size" placeholder="approx. 2.5 cm" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3.5 py-2 text-xs text-stone-200 focus:outline-none focus:border-amber-500">
+            </div>
+
+            <div>
+              <label class="block text-xs font-medium text-stone-300 mb-1">Medium</label>
+              <input type="text" id="edit-medium" placeholder="Hand-carved pencil graphite" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3.5 py-2 text-xs text-stone-200 focus:outline-none focus:border-amber-500">
+            </div>
+
+            <div>
+              <label class="block text-xs font-medium text-stone-300 mb-1">Year</label>
+              <input type="text" id="edit-year" value="2026" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3.5 py-2 text-xs text-stone-200 focus:outline-none focus:border-amber-500">
+            </div>
+          </div>
+
+          <!-- Photo Upload Section -->
+          <div class="p-4 rounded-xl bg-stone-950 border border-stone-800 space-y-3">
+            <label class="block text-xs font-mono uppercase tracking-wider text-amber-400 font-semibold">Artwork Photograph *</label>
+            
+            <div class="flex items-center gap-4">
+              <div class="w-20 h-24 rounded-lg bg-stone-900 border border-stone-700 overflow-hidden flex-shrink-0 flex items-center justify-center">
+                <img id="edit-preview-img" src="" alt="Preview" class="w-full h-full object-cover hidden">
+                <span id="edit-preview-placeholder" class="text-xs text-stone-600">No Image</span>
+              </div>
+
+              <div class="flex-1 space-y-2">
+                <input type="file" id="edit-file-input" accept="image/*" class="block w-full text-xs text-stone-400 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-amber-500/20 file:text-amber-300 hover:file:bg-amber-500/30 cursor-pointer">
+                <div class="flex items-center gap-2">
+                  <span class="text-[10px] text-stone-500">OR Image Path / URL:</span>
+                  <input type="text" id="edit-image" placeholder="assets/images/artworks/..." class="flex-1 bg-stone-900 border border-stone-800 rounded px-2 py-1 text-xs text-stone-300 font-mono">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Description -->
+          <div>
+            <label class="block text-xs font-medium text-stone-300 mb-1">Artistic Description / Narrative</label>
+            <textarea id="edit-description" rows="2" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3.5 py-2 text-xs text-stone-200 focus:outline-none focus:border-amber-500 leading-relaxed"></textarea>
+          </div>
+
+          <!-- Quotes -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-medium text-stone-300 mb-1">Hindi Philosophical Quote</label>
+              <input type="text" id="edit-hindiQuote" placeholder="हमारी जड़ों में है संगीत।" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3.5 py-2 text-xs font-devanagari text-amber-300 focus:outline-none focus:border-amber-500">
+            </div>
+
+            <div>
+              <label class="block text-xs font-medium text-stone-300 mb-1">English Quote</label>
+              <input type="text" id="edit-englishQuote" placeholder="Music lies in our roots." class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3.5 py-2 text-xs text-stone-200 focus:outline-none focus:border-amber-500">
+            </div>
+          </div>
+
+          <!-- Showcase Flags -->
+          <div class="flex flex-wrap items-center gap-6 pt-2">
+            <label class="inline-flex items-center gap-2 cursor-pointer select-none">
+              <input type="checkbox" id="edit-isHero" class="w-4 h-4 rounded accent-amber-500">
+              <span class="text-xs font-medium text-stone-300">Feature in Hero Art Wall (Top 12 Showcase)</span>
+            </label>
+
+            <label class="inline-flex items-center gap-2 cursor-pointer select-none">
+              <input type="checkbox" id="edit-featured" class="w-4 h-4 rounded accent-amber-500">
+              <span class="text-xs font-medium text-stone-300">Feature in Highlights Carousel</span>
+            </label>
+          </div>
+
+          <div class="pt-4 border-t border-stone-800 flex items-center justify-end gap-3">
+            <button type="button" id="artwork-modal-cancel" class="px-4 py-2.5 rounded-xl border border-stone-700 text-stone-300 hover:bg-stone-800 text-xs font-semibold transition-colors">
+              Cancel
+            </button>
+            <button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-stone-950 font-bold text-xs rounded-xl shadow-lg transition-all">
+              Save Artwork
+            </button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="admin-toast" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 px-5 py-3 rounded-2xl bg-stone-900 border border-amber-500/50 shadow-2xl flex items-center gap-3">
+    <span id="toast-icon" class="text-amber-400">✅</span>
+    <span id="toast-message" class="text-xs font-semibold text-stone-200">Changes saved successfully!</span>
+  </div>
+
+  <!-- Admin Application Logic -->
+  <script>
+    (function() {
+      const MASTER_PASSCODE = 'artkgs2026';
+      let activeArtworks = [];
+      let activeCategory = 'all';
+
+      // Elements
+      const loginScreen = document.getElementById('admin-login-screen');
+      const loginForm = document.getElementById('admin-login-form');
+      const passcodeInput = document.getElementById('admin-passcode-input');
+      const loginError = document.getElementById('admin-login-error');
+      const dashboard = document.getElementById('admin-dashboard');
+      const logoutBtn = document.getElementById('admin-logout-btn');
+
+      // Toast
+      function showToast(msg, icon = '✅') {
+        const toast = document.getElementById('admin-toast');
+        document.getElementById('toast-message').textContent = msg;
+        document.getElementById('toast-icon').textContent = icon;
+        toast.classList.remove('translate-y-24', 'opacity-0');
+        setTimeout(() => {
+          toast.classList.add('translate-y-24', 'opacity-0');
+        }, 3200);
+      }
+
+      // 1. Authentication Check
+      function checkAuth() {
+        const isAuth = sessionStorage.getItem('artkgs_admin_logged_in') === 'true';
+        if (isAuth) {
+          loginScreen.classList.add('hidden');
+          dashboard.classList.remove('hidden');
+          initDashboard();
+        } else {
+          loginScreen.classList.remove('hidden');
+          dashboard.classList.add('hidden');
+        }
+      }
+
+      loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const code = passcodeInput.value.trim();
+        if (code === MASTER_PASSCODE || code === 'harsh@artkgs' || code === 'artkgs') {
+          sessionStorage.setItem('artkgs_admin_logged_in', 'true');
+          loginError.classList.add('hidden');
+          loginScreen.classList.add('hidden');
+          dashboard.classList.remove('hidden');
+          initDashboard();
+          showToast('Welcome to Studio Admin, Harsh ji! 🙏');
+        } else {
+          loginError.textContent = 'Incorrect passcode. Please try again.';
+          loginError.classList.remove('hidden');
+        }
+      });
+
+      logoutBtn.addEventListener('click', () => {
+        sessionStorage.removeItem('artkgs_admin_logged_in');
+        window.location.reload();
+      });
+
+      // 2. Navigation Tabs
+      document.querySelectorAll('.nav-tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.nav-tab-btn').forEach(b => b.classList.remove('active-nav-tab'));
+          btn.classList.add('active-nav-tab');
+
+          const tabName = btn.dataset.tab;
+          document.querySelectorAll('.tab-pane').forEach(p => p.classList.add('hidden'));
+          const target = document.getElementById(`tab-${tabName}`);
+          if (target) target.classList.remove('hidden');
+        });
+      });
+
+      // 3. Initialize Dashboard
+      function initDashboard() {
+        activeArtworks = window.ArtkgsSync ? window.ArtkgsSync.getLiveCatalog() : (window.ARTKGS_CATALOG || []);
+        renderArtworksList();
+        populateContentForm();
+        populateContactForm();
+      }
+
+      // 4. Render Artworks List
+      function renderArtworksList() {
+        const container = document.getElementById('admin-artworks-grid');
+        const countBadge = document.getElementById('tab-artworks-count');
+        if (!container) return;
+
+        countBadge.textContent = activeArtworks.length;
+
+        const searchQuery = (document.getElementById('artwork-search-input').value || '').toLowerCase().trim();
+        const filterCat = document.getElementById('artwork-category-filter').value;
+
+        let filtered = activeArtworks.filter(a => {
+          const matchCat = (filterCat === 'all') || (a.category === filterCat);
+          const matchSearch = !searchQuery || 
+            (a.title && a.title.toLowerCase().includes(searchQuery)) ||
+            (a.hindiTitle && a.hindiTitle.toLowerCase().includes(searchQuery)) ||
+            (a.pieceNumber && a.pieceNumber.toString().includes(searchQuery)) ||
+            (a.medium && a.medium.toLowerCase().includes(searchQuery));
+          return matchCat && matchSearch;
+        });
+
+        container.innerHTML = '';
+
+        if (filtered.length === 0) {
+          container.innerHTML = `
+            <div class="col-span-full py-12 text-center text-stone-500 font-mono text-xs">
+              No artworks match your search query or filter.
+            </div>
+          `;
+          return;
+        }
+
+        filtered.forEach(art => {
+          const card = document.createElement('div');
+          card.className = 'bg-stone-900 border border-stone-800 hover:border-amber-500/50 rounded-2xl overflow-hidden flex flex-col justify-between transition-all duration-300 shadow-lg';
+          
+          card.innerHTML = `
+            <div>
+              <div class="relative aspect-[4/5] bg-stone-950 overflow-hidden">
+                <img src="${art.image}" alt="${art.title}" class="w-full h-full object-cover">
+                
+                <span class="absolute top-2.5 left-2.5 text-[10px] font-mono tracking-wider px-2 py-0.5 rounded-full bg-stone-950/80 text-amber-300 border border-amber-500/30 backdrop-blur-md">
+                  ${art.pieceNumber ? `Piece ${art.pieceNumber}` : (art.categoryLabel || art.category)}
+                </span>
+
+                ${art.isHero ? `
+                  <span class="absolute top-2.5 right-2.5 text-[10px] font-mono px-2 py-0.5 rounded-full bg-amber-500/30 text-amber-200 border border-amber-500/50 backdrop-blur-md">
+                    ★ Hero 12
+                  </span>
+                ` : ''}
+              </div>
+
+              <div class="p-4">
+                <div class="flex items-start justify-between gap-1 mb-1">
+                  <h4 class="font-serif text-sm font-bold text-stone-100 truncate">${art.title}</h4>
+                  <span class="text-[10px] font-mono text-amber-400 flex-shrink-0">${art.size || ''}</span>
+                </div>
+                ${art.hindiTitle ? `<p class="font-devanagari text-xs text-amber-400/80 truncate mb-1">${art.hindiTitle}</p>` : ''}
+                <p class="text-[11px] text-stone-400 font-light line-clamp-2 leading-relaxed">${art.description || ''}</p>
+              </div>
+            </div>
+
+            <div class="p-3 border-t border-stone-800/80 bg-stone-950/40 flex items-center justify-between gap-2">
+              <button class="edit-art-btn flex-1 py-1.5 px-3 rounded-lg bg-stone-800 hover:bg-amber-500 hover:text-stone-950 text-stone-200 text-xs font-semibold transition-all" data-id="${art.id}">
+                ✏️ Edit
+              </button>
+
+              <button class="toggle-hero-btn p-1.5 rounded-lg border border-stone-800 hover:border-amber-500 text-xs text-stone-300" data-id="${art.id}" title="${art.isHero ? 'Remove from Hero 12' : 'Add to Hero 12'}">
+                ${art.isHero ? '★' : '☆'}
+              </button>
+
+              <button class="delete-art-btn p-1.5 rounded-lg border border-stone-800 hover:border-rose-500 hover:text-rose-400 text-xs text-stone-400" data-id="${art.id}" title="Delete artwork">
+                🗑️
+              </button>
+            </div>
+          `;
+
+          container.appendChild(card);
+        });
+
+        // Bind Card Actions
+        container.querySelectorAll('.edit-art-btn').forEach(btn => {
+          btn.addEventListener('click', () => openArtworkModal(btn.dataset.id));
+        });
+
+        container.querySelectorAll('.toggle-hero-btn').forEach(btn => {
+          btn.addEventListener('click', () => toggleHeroStatus(btn.dataset.id));
+        });
+
+        container.querySelectorAll('.delete-art-btn').forEach(btn => {
+          btn.addEventListener('click', () => deleteArtwork(btn.dataset.id));
+        });
+      }
+
+      // Filter & Search events
+      document.getElementById('artwork-search-input').addEventListener('input', renderArtworksList);
+      document.getElementById('artwork-category-filter').addEventListener('change', renderArtworksList);
+
+      // 5. Add / Edit Modal Logic
+      const modal = document.getElementById('artwork-editor-modal');
+      const modalHeading = document.getElementById('artwork-modal-heading');
+      const artworkForm = document.getElementById('artwork-editor-form');
+      const fileInput = document.getElementById('edit-file-input');
+      const previewImg = document.getElementById('edit-preview-img');
+      const previewPlaceholder = document.getElementById('edit-preview-placeholder');
+
+      // File picker preview
+      fileInput.addEventListener('change', (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (loadEvt) => {
+            const dataUrl = loadEvt.target.result;
+            previewImg.src = dataUrl;
+            previewImg.classList.remove('hidden');
+            previewPlaceholder.classList.add('hidden');
+            document.getElementById('edit-image').value = dataUrl;
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+
+      document.getElementById('edit-image').addEventListener('input', (e) => {
+        const val = e.target.value.trim();
+        if (val) {
+          previewImg.src = val;
+          previewImg.classList.remove('hidden');
+          previewPlaceholder.classList.add('hidden');
+        }
+      });
+
+      function openArtworkModal(artId = null) {
+        artworkForm.reset();
+        previewImg.classList.add('hidden');
+        previewPlaceholder.classList.remove('hidden');
+
+        if (artId) {
+          const item = activeArtworks.find(a => a.id === artId);
+          if (!item) return;
+
+          modalHeading.textContent = `Edit: ${item.title}`;
+          document.getElementById('edit-artwork-id').value = item.id;
+          document.getElementById('edit-title').value = item.title || '';
+          document.getElementById('edit-hindiTitle').value = item.hindiTitle || '';
+          document.getElementById('edit-category').value = item.category || 'single-piece';
+          document.getElementById('edit-pieceNumber').value = item.pieceNumber || '';
+          document.getElementById('edit-discipline').value = item.discipline || '';
+          document.getElementById('edit-size').value = item.size || '';
+          document.getElementById('edit-medium').value = item.medium || '';
+          document.getElementById('edit-year').value = item.year || '2026';
+          document.getElementById('edit-image').value = item.image || '';
+          document.getElementById('edit-description').value = item.description || '';
+          document.getElementById('edit-hindiQuote').value = item.hindiQuote || '';
+          document.getElementById('edit-englishQuote').value = item.englishQuote || '';
+          document.getElementById('edit-isHero').checked = Boolean(item.isHero);
+          document.getElementById('edit-featured').checked = Boolean(item.featured);
+
+          if (item.image) {
+            previewImg.src = item.image;
+            previewImg.classList.remove('hidden');
+            previewPlaceholder.classList.add('hidden');
+          }
+        } else {
+          modalHeading.textContent = 'Add New Artwork';
+          document.getElementById('edit-artwork-id').value = '';
+          document.getElementById('edit-year').value = '2026';
+        }
+
+        modal.classList.remove('hidden');
+      }
+
+      document.getElementById('add-artwork-btn').addEventListener('click', () => openArtworkModal(null));
+      document.getElementById('artwork-modal-close').addEventListener('click', () => modal.classList.add('hidden'));
+      document.getElementById('artwork-modal-cancel').addEventListener('click', () => modal.classList.add('hidden'));
+
+      // Submit Artwork Form
+      artworkForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const artId = document.getElementById('edit-artwork-id').value.trim();
+        const title = document.getElementById('edit-title').value.trim();
+        const hindiTitle = document.getElementById('edit-hindiTitle').value.trim();
+        const category = document.getElementById('edit-category').value;
+        const pieceNumber = document.getElementById('edit-pieceNumber').value.trim();
+        const discipline = document.getElementById('edit-discipline').value.trim();
+        const size = document.getElementById('edit-size').value.trim();
+        const medium = document.getElementById('edit-medium').value.trim();
+        const year = document.getElementById('edit-year').value.trim();
+        const image = document.getElementById('edit-image').value.trim() || 'assets/images/branding/harsh_avatar.jpg';
+        const description = document.getElementById('edit-description').value.trim();
+        const hindiQuote = document.getElementById('edit-hindiQuote').value.trim();
+        const englishQuote = document.getElementById('edit-englishQuote').value.trim();
+        const isHero = document.getElementById('edit-isHero').checked;
+        const featured = document.getElementById('edit-featured').checked;
+
+        if (artId) {
+          // Update existing
+          const idx = activeArtworks.findIndex(a => a.id === artId);
+          if (idx !== -1) {
+            activeArtworks[idx] = Object.assign({}, activeArtworks[idx], {
+              title, hindiTitle, category, pieceNumber, discipline, size, medium, year,
+              image, thumbnail: image, description, hindiQuote, englishQuote, isHero, featured
+            });
+            showToast(`Artwork "${title}" updated!`);
+          }
+        } else {
+          // Add new
+          const newId = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || `art-${Date.now()}`;
+          const newArt = {
+            id: newId,
+            title, hindiTitle, category, pieceNumber, discipline, size, medium, year,
+            image, thumbnail: image, description, hindiQuote, englishQuote, isHero, featured,
+            location: 'Rishikesh Studio, Uttarakhand',
+            highlights: [size, discipline || 'Hand-chiseled', 'Rishikesh Studio']
+          };
+          activeArtworks.unshift(newArt);
+          showToast(`New artwork "${title}" added!`);
+        }
+
+        window.ArtkgsSync.saveLiveCatalog(activeArtworks);
+        modal.classList.add('hidden');
+        renderArtworksList();
+      });
+
+      // Toggle Hero status
+      function toggleHeroStatus(artId) {
+        const item = activeArtworks.find(a => a.id === artId);
+        if (!item) return;
+        item.isHero = !item.isHero;
+        window.ArtkgsSync.saveLiveCatalog(activeArtworks);
+        renderArtworksList();
+        showToast(`Hero status updated for "${item.title}"`);
+      }
+
+      // Delete Artwork
+      function deleteArtwork(artId) {
+        const item = activeArtworks.find(a => a.id === artId);
+        if (!item) return;
+        if (confirm(`Are you sure you want to delete "${item.title}"?`)) {
+          activeArtworks = activeArtworks.filter(a => a.id !== artId);
+          window.ArtkgsSync.saveLiveCatalog(activeArtworks);
+          renderArtworksList();
+          showToast(`Deleted "${item.title}"`);
+        }
+      }
+
+      // 6. Site Words & Content Form
+      function populateContentForm() {
+        const content = window.ArtkgsSync.getSiteContent();
+        document.getElementById('input-heroBadge').value = content.heroBadge || '';
+        document.getElementById('input-heroDevanagari').value = content.heroDevanagari || '';
+        document.getElementById('input-heroSubtitle').value = content.heroSubtitle || '';
+        document.getElementById('input-heroBio').value = content.heroBio || '';
+        document.getElementById('input-philosophyText').value = content.philosophyText || '';
+      }
+
+      document.getElementById('site-content-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const updates = {
+          heroBadge: document.getElementById('input-heroBadge').value.trim(),
+          heroDevanagari: document.getElementById('input-heroDevanagari').value.trim(),
+          heroSubtitle: document.getElementById('input-heroSubtitle').value.trim(),
+          heroBio: document.getElementById('input-heroBio').value.trim(),
+          philosophyText: document.getElementById('input-philosophyText').value.trim()
+        };
+
+        window.ArtkgsSync.saveSiteContent(updates);
+        showToast('All Website Words & Quotes Saved!');
+      });
+
+      document.getElementById('reset-content-btn').addEventListener('click', () => {
+        if (confirm('Reset text to original defaults?')) {
+          window.ArtkgsSync.saveSiteContent(window.ArtkgsSync.DEFAULT_SITE_CONTENT);
+          populateContentForm();
+          showToast('Text restored to defaults.');
+        }
+      });
+
+      // 7. Contact & Pricing Form
+      function populateContactForm() {
+        const content = window.ArtkgsSync.getSiteContent();
+        document.getElementById('input-studioPhone').value = content.studioPhone || '';
+        document.getElementById('input-studioWhatsapp').value = content.studioWhatsapp || '';
+        document.getElementById('input-studioEmail').value = content.studioEmail || '';
+        document.getElementById('input-studioAddress').value = content.studioAddress || '';
+        document.getElementById('input-priceNameCarving').value = content.priceNameCarving || '₹1,499';
+        document.getElementById('input-priceTemple').value = content.priceTemple || '₹4,999';
+        document.getElementById('input-priceMasterwork').value = content.priceMasterwork || '₹9,999';
+        document.getElementById('input-priceCanvas').value = content.priceCanvas || '₹14,999';
+      }
+
+      document.getElementById('contact-pricing-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const rawPhone = document.getElementById('input-studioPhone').value.replace(/\D/g, '');
+        const rawWa = document.getElementById('input-studioWhatsapp').value.replace(/\D/g, '');
+
+        const updates = {
+          studioPhone: document.getElementById('input-studioPhone').value.trim(),
+          studioPhoneRaw: rawPhone,
+          studioWhatsapp: document.getElementById('input-studioWhatsapp').value.trim(),
+          studioWhatsappRaw: rawWa,
+          studioEmail: document.getElementById('input-studioEmail').value.trim(),
+          studioAddress: document.getElementById('input-studioAddress').value.trim(),
+          priceNameCarving: document.getElementById('input-priceNameCarving').value.trim(),
+          priceTemple: document.getElementById('input-priceTemple').value.trim(),
+          priceMasterwork: document.getElementById('input-priceMasterwork').value.trim(),
+          priceCanvas: document.getElementById('input-priceCanvas').value.trim()
+        };
+
+        window.ArtkgsSync.saveSiteContent(updates);
+        showToast('Contact & Pricing Information Saved!');
+      });
+
+      // 8. Download Code Exports
+      document.getElementById('download-gallery-data-btn').addEventListener('click', () => {
+        const code = `// ArtKGS Master Gallery Catalog Data\n// Exported from ArtKGS Studio Admin\n\nconst ARTKGS_CATALOG = ${JSON.stringify(activeArtworks, null, 2)};\n\nif (typeof window !== 'undefined') {\n  window.ARTKGS_CATALOG = ARTKGS_CATALOG;\n}\n\nif (typeof module !== 'undefined' && module.exports) {\n  module.exports = { ARTKGS_CATALOG };\n}\n`;
+        const blob = new Blob([code], { type: 'application/javascript' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'gallery-data.js';
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast('gallery-data.js downloaded!');
+      });
+
+      document.getElementById('download-json-backup-btn').addEventListener('click', () => {
+        const backup = {
+          catalog: activeArtworks,
+          content: window.ArtkgsSync.getSiteContent(),
+          exportedAt: new Date().toISOString()
+        };
+        const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `artkgs-backup-${new Date().toISOString().slice(0, 10)}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast('Full Studio Backup downloaded!');
+      });
+
+      document.getElementById('factory-reset-btn').addEventListener('click', () => {
+        if (confirm('Are you sure you want to reset everything to initial factory settings? All custom edits will be cleared.')) {
+          window.ArtkgsSync.resetToDefault();
+        }
+      });
+
+      // Initialize
+      checkAuth();
+    })();
+  </script>
+</body>
+</html>

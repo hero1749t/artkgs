@@ -1,5 +1,5 @@
 // ArtKGS Microscopic Macro-Loupe & Detailing Inspector
-// Enables fluid 1.8x-8.0x magnification, surface lighting shifts, dual detail/scale ruler modes, and instant WhatsApp booking
+// Enables fluid 1.8x-8.0x magnification, surface lighting shifts, dual detail/scale ruler modes, touch pinch-to-zoom, and instant WhatsApp booking
 
 class MacroViewer {
   constructor() {
@@ -12,6 +12,9 @@ class MacroViewer {
     this.currentViewMode = 'detail'; // 'detail' or 'scale'
     this.activeArtwork = null;
     this.lastPointerPos = null;
+    this.isTouchDevice = (typeof window !== 'undefined' && ('ontouchstart' in window)) || (typeof navigator !== 'undefined' && navigator.maxTouchPoints > 0);
+    this.initialPinchDistance = null;
+    this.initialPinchZoom = 3.5;
 
     if (this.modal && this.image && this.loupe) {
       this.init();
@@ -24,22 +27,56 @@ class MacroViewer {
   }
 
   bindGlobalTriggers() {
-    // Delegated click support for any element requesting macro inspection
-    document.addEventListener('click', (e) => {
+    // Delegated click and touch support for any element requesting macro inspection
+    let lastTriggerTime = 0;
+
+    const handleTrigger = (e) => {
+      const trigger = e.target.closest('[data-macro-artwork], [data-macro-id]');
+      if (!trigger) return;
+
+      const now = Date.now();
+      if (now - lastTriggerTime < 350) return; // Prevent double firing on touch/click synthesis
+      lastTriggerTime = now;
+
+      const id = trigger.getAttribute('data-macro-artwork') || trigger.getAttribute('data-macro-id');
+      if (id) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.open(id);
+      }
+    };
+
+    document.addEventListener('click', handleTrigger, { passive: false });
+    document.addEventListener('touchend', (e) => {
       const trigger = e.target.closest('[data-macro-artwork], [data-macro-id]');
       if (trigger) {
-        const id = trigger.getAttribute('data-macro-artwork') || trigger.getAttribute('data-macro-id');
-        if (id) {
-          e.preventDefault();
-          this.open(id);
-        }
+        handleTrigger(e);
       }
-    });
+    }, { passive: false });
+  }
+
+  getCatalog() {
+    if (window.ArtkgsSync && typeof window.ArtkgsSync.getLiveCatalog === 'function') {
+      const live = window.ArtkgsSync.getLiveCatalog();
+      if (Array.isArray(live) && live.length > 0) return live;
+    }
+    if (window.ARTKGS_CATALOG && Array.isArray(window.ARTKGS_CATALOG)) {
+      return window.ARTKGS_CATALOG;
+    }
+    if (typeof ARTKGS_CATALOG !== 'undefined' && Array.isArray(ARTKGS_CATALOG)) {
+      return ARTKGS_CATALOG;
+    }
+    return [];
   }
 
   open(artworkId) {
-    if (!window.ARTKGS_CATALOG) return;
-    const item = window.ARTKGS_CATALOG.find(a => a.id === artworkId);
+    const catalog = this.getCatalog();
+    if (!catalog || catalog.length === 0) {
+      console.warn('[MacroViewer] Catalog not loaded yet');
+      return;
+    }
+
+    const item = catalog.find(a => a.id === artworkId);
     if (!item) {
       console.warn(`[MacroViewer] Artwork not found in catalog: ${artworkId}`);
       return;
@@ -50,7 +87,14 @@ class MacroViewer {
 
     // 1. Unhide modal FIRST so DOM dimensions are fully computable
     this.modal.classList.remove('hidden');
+    this.modal.style.display = 'flex';
     document.body.style.overflow = 'hidden';
+
+    // Temporarily hide floating elements (WhatsApp button, mobile bottom bar) so they don't block clicks/touches
+    document.querySelectorAll('.wa-floating-btn, #mobile-conversion-bar, .floating-cta').forEach(el => {
+      el.dataset.prevDisplay = el.style.display;
+      el.style.display = 'none';
+    });
 
     // 2. Set UI contents
     const titleEl = document.getElementById('macro-modal-title');
@@ -182,8 +226,12 @@ class MacroViewer {
 
     const onReady = () => {
       this.updateLoupeBackgroundSize();
-      if (this.lastPointerPos) {
-        this.renderLoupe(this.lastPointerPos.x, this.lastPointerPos.y);
+      // On mobile / desktop initial open: place loupe at center of artwork image
+      const imgRect = this.image.getBoundingClientRect();
+      if (imgRect.width > 0 && imgRect.height > 0) {
+        const centerX = imgRect.left + (imgRect.width / 2);
+        const centerY = imgRect.top + (imgRect.height / 2);
+        this.renderLoupe(centerX, centerY);
       }
     };
 
@@ -194,9 +242,9 @@ class MacroViewer {
       requestAnimationFrame(onReady);
     };
 
-    // Fallbacks after DOM paint
-    setTimeout(onReady, 50);
-    setTimeout(onReady, 200);
+    // Fallbacks after paint
+    setTimeout(onReady, 60);
+    setTimeout(onReady, 250);
   }
 
   setViewMode(mode) {
@@ -229,11 +277,22 @@ class MacroViewer {
   close() {
     if (!this.modal) return;
     this.modal.classList.add('hidden');
+    this.modal.style.display = 'none';
     document.body.style.overflow = '';
     if (this.loupe) {
       this.loupe.style.opacity = '0';
     }
     this.lastPointerPos = null;
+
+    // Restore floating elements
+    document.querySelectorAll('.wa-floating-btn, #mobile-conversion-bar, .floating-cta').forEach(el => {
+      if (el.dataset.prevDisplay !== undefined) {
+        el.style.display = el.dataset.prevDisplay;
+        delete el.dataset.prevDisplay;
+      } else {
+        el.style.display = '';
+      }
+    });
   }
 
   updateLoupeBackgroundSize() {
@@ -290,7 +349,7 @@ class MacroViewer {
     });
   }
 
-  renderLoupe(clientX, clientY) {
+  renderLoupe(clientX, clientY, isTouchEvent = false) {
     if (!this.image || !this.loupe) return;
     const container = this.stage || document.getElementById('macro-image-stage');
     if (!container) return;
@@ -300,13 +359,16 @@ class MacroViewer {
 
     // Check pointer boundary on image with generous tolerance
     if (
-      clientX < (imgRect.left - 4) ||
-      clientX > (imgRect.right + 4) ||
-      clientY < (imgRect.top - 4) ||
-      clientY > (imgRect.bottom + 4)
+      clientX < (imgRect.left - 24) ||
+      clientX > (imgRect.right + 24) ||
+      clientY < (imgRect.top - 24) ||
+      clientY > (imgRect.bottom + 24)
     ) {
-      this.loupe.style.opacity = '0';
-      return;
+      // Keep visible on mobile or fade out on mouse exit
+      if (!isTouchEvent && !this.lastPointerPos) {
+        this.loupe.style.opacity = '0';
+        return;
+      }
     }
 
     // Save active pointer position
@@ -323,9 +385,12 @@ class MacroViewer {
 
     const loupeRadius = (this.loupe.offsetWidth / 2) || 85;
 
-    // 1. Stage-relative positioning: centers the loupe right at the user's cursor
+    // For touch devices, offset loupe slightly upwards so user's thumb does not cover the magnified viewing area
+    const touchOffsetY = isTouchEvent ? 65 : 0;
+
+    // 1. Stage-relative positioning: centers the loupe right at the user's cursor / above finger
     const stageX = clientX - stageRect.left;
-    const stageY = clientY - stageRect.top;
+    const stageY = (clientY - touchOffsetY) - stageRect.top;
     this.loupe.style.left = `${stageX - loupeRadius}px`;
     this.loupe.style.top = `${stageY - loupeRadius}px`;
 
@@ -403,13 +468,13 @@ class MacroViewer {
 
     // Mouse Movement
     const onMouseMove = (e) => {
-      this.renderLoupe(e.clientX, e.clientY);
+      this.renderLoupe(e.clientX, e.clientY, false);
     };
 
     container.addEventListener('mousemove', onMouseMove);
     container.addEventListener('mouseenter', onMouseMove);
     container.addEventListener('mouseleave', () => {
-      if (this.loupe) this.loupe.style.opacity = '0';
+      // Keep subtle presence if already inspecting
     });
 
     // Mouse Wheel Zoom on image stage
@@ -417,21 +482,60 @@ class MacroViewer {
       e.preventDefault();
       const step = e.deltaY < 0 ? 0.3 : -0.3;
       this.setZoom(this.zoomLevel + step);
-      this.renderLoupe(e.clientX, e.clientY);
+      this.renderLoupe(e.clientX, e.clientY, false);
     }, { passive: false });
 
-    // Touch Support for mobile/tablets
-    const onTouch = (e) => {
-      if (!e.touches || e.touches.length === 0) return;
-      e.preventDefault(); // prevent background scroll while inspecting
-      const t = e.touches[0];
-      this.renderLoupe(t.clientX, t.clientY);
+    // Touch Support for mobile/tablets with Single-Touch Pan & Pinch-to-Zoom
+    const getTouchDistance = (t1, t2) => {
+      const dx = t1.clientX - t2.clientX;
+      const dy = t1.clientY - t2.clientY;
+      return Math.sqrt(dx * dx + dy * dy);
     };
 
-    container.addEventListener('touchstart', onTouch, { passive: false });
-    container.addEventListener('touchmove', onTouch, { passive: false });
+    container.addEventListener('touchstart', (e) => {
+      if (!e.touches) return;
 
-    // Click to cycle zoom level: 3.5x -> 5.5x -> 8.0x -> 2.5x
+      if (e.touches.length === 2) {
+        // Pinch-to-zoom start
+        e.preventDefault();
+        this.initialPinchDistance = getTouchDistance(e.touches[0], e.touches[1]);
+        this.initialPinchZoom = this.zoomLevel;
+      } else if (e.touches.length === 1) {
+        e.preventDefault();
+        const t = e.touches[0];
+        this.renderLoupe(t.clientX, t.clientY, true);
+      }
+    }, { passive: false });
+
+    container.addEventListener('touchmove', (e) => {
+      if (!e.touches) return;
+
+      if (e.touches.length === 2 && this.initialPinchDistance) {
+        // Pinch-to-zoom active
+        e.preventDefault();
+        const currentDistance = getTouchDistance(e.touches[0], e.touches[1]);
+        const scaleFactor = currentDistance / this.initialPinchDistance;
+        const newZoom = Math.min(8.0, Math.max(1.8, this.initialPinchZoom * scaleFactor));
+        this.setZoom(newZoom);
+
+        // Center between two fingers
+        const midX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+        const midY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+        this.renderLoupe(midX, midY, true);
+      } else if (e.touches.length === 1) {
+        e.preventDefault();
+        const t = e.touches[0];
+        this.renderLoupe(t.clientX, t.clientY, true);
+      }
+    }, { passive: false });
+
+    container.addEventListener('touchend', (e) => {
+      if (e.touches && e.touches.length < 2) {
+        this.initialPinchDistance = null;
+      }
+    });
+
+    // Tap on image cycles zoom level
     if (this.image) {
       this.image.addEventListener('click', (e) => {
         let nextZoom = 3.5;
@@ -441,7 +545,7 @@ class MacroViewer {
         else nextZoom = 2.5;
 
         this.setZoom(nextZoom);
-        this.renderLoupe(e.clientX, e.clientY);
+        this.renderLoupe(e.clientX, e.clientY, false);
       });
     }
 
@@ -450,7 +554,7 @@ class MacroViewer {
       if (this.modal && !this.modal.classList.contains('hidden')) {
         this.updateLoupeBackgroundSize();
         if (this.lastPointerPos) {
-          this.renderLoupe(this.lastPointerPos.x, this.lastPointerPos.y);
+          this.renderLoupe(this.lastPointerPos.x, this.lastPointerPos.y, false);
         }
       }
     });

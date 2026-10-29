@@ -718,6 +718,7 @@ const ARTKGS_CATALOG = [
   },
   {
     "id": "kedarnath-majestic-shrine",
+    "isHero": true,
     "title": "Kedarnath",
     "hindiTitle": "श्री केदारनाथ धाम — कैनवास",
     "category": "devbhoomi",
@@ -1078,6 +1079,10 @@ const ARTKGS_CATALOG = [
     "year": "2025"
   }
 ];
+
+if (typeof window !== 'undefined') {
+  window.ARTKGS_CATALOG = ARTKGS_CATALOG;
+}
 
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = { ARTKGS_CATALOG };
