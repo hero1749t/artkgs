@@ -1,20 +1,27 @@
 User-agent: *
 Allow: /
+Allow: /guides/
 Allow: /assets/
 Allow: /assets/images/
 Allow: /assets/css/
 Allow: /assets/js/
+Disallow: /admin
+Disallow: /admin/
+Disallow: /admin.html
 
-# Crawlers
+# Major Search Engine Crawlers
 User-agent: Googlebot
 Allow: /
+Allow: /guides/
+Disallow: /admin
 
 User-agent: Googlebot-Image
 Allow: /assets/images/
 
 User-agent: Bingbot
 Allow: /
+Allow: /guides/
+Disallow: /admin
 
-# Sitemap
+# Verified Sitemap
 Sitemap: https://artkgs.vercel.app/sitemap.xml
-

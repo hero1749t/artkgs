@@ -396,4 +396,79 @@
       <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
     </image:image>
   </url>
+
+  <!-- ==================== COLLECTOR GUIDES & KNOWLEDGE BASE ==================== -->
+  <url>
+    <loc>https://artkgs.vercel.app/guides/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/branding/harsh_avatar.jpg</image:loc>
+      <image:title>ArtKGS Collector Guides &amp; Knowledge Hub Rishikesh</image:title>
+      <image:caption>Official collector guides, micro-sculpting masterclasses, and pricing from ArtKGS Rishikesh</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://artkgs.vercel.app/guides/pencil-lead-carving-art</loc>
+    <lastmod>2026-11-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/portfolio_2026/06_kedarnath_temple_detail.jpg</image:loc>
+      <image:title>The Art of Microscopic Graphite: Carving on 0.5mm Pencil Leads</image:title>
+      <image:caption>Surgical scalpel techniques, graphite physics, and yogic breath control in Rishikesh</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://artkgs.vercel.app/guides/kedarnath-temple-pencil-carving</loc>
+    <lastmod>2026-11-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/portfolio_2026/06_kedarnath_temple_scale.jpg</image:loc>
+      <image:title>Kedarnath Temple on a Pencil Tip: Sacred Himalayan Architecture in 12 Millimetres</image:title>
+      <image:caption>Microscopic stone sanctum of Kedarnath Temple carved on a 1.2 cm pencil lead</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://artkgs.vercel.app/guides/worlds-best-pencil-sculptors</loc>
+    <lastmod>2026-11-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/portfolio_2026/01_burden_of_giving_birth_detail.jpg</image:loc>
+      <image:title>The World's Rarest Micro-Sculptors: Why Harsh Stands Among the Elite</image:title>
+      <image:caption>Global comparison of pencil carving masters Dalton Ghetti, Salavat Fidai, and Harsh ArtKGS</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://artkgs.vercel.app/guides/custom-pencil-carving-pricing-guide</loc>
+    <lastmod>2026-11-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/portfolio_2026/14_veena_detail.jpg</image:loc>
+      <image:title>Custom Pencil Carving Pricing &amp; Commission Guide (2026)</image:title>
+      <image:caption>Pricing tiers from ₹1,499 for bespoke names to ₹14,999+ for single-piece masterworks</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://artkgs.vercel.app/guides/preservation-display-shipping-guide</loc>
+    <lastmod>2026-11-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://artkgs.vercel.app/assets/images/artworks/portfolio_2026/10_peacock_05mm_lead_detail.jpg</image:loc>
+      <image:title>Museum Preservation &amp; Shipping: How Fragile Pencil Carvings Are Protected</image:title>
+      <image:caption>Hermetic optical bell jar and 3-tier shockproof courier suspension packaging</image:caption>
+      <image:geo_location>Rishikesh, Uttarakhand, India</image:geo_location>
+    </image:image>
+  </url>
+
 </urlset>
