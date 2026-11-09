@@ -524,3 +524,12 @@ body.light-gallery-mode .faq-item div {
 
 
 
+
+
+@media (max-width: 640px) {
+  #macro-loupe {
+    width: 130px;
+    height: 130px;
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.9), 0 0 18px rgba(0, 0, 0, 0.9), inset 0 0 10px rgba(0, 0, 0, 0.6);
+  }
+}

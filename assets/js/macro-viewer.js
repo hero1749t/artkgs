@@ -1,6 +1,52 @@
 // ArtKGS Microscopic Macro-Loupe & Detailing Inspector
 // Enables fluid 1.8x-8.0x magnification, surface lighting shifts, dual detail/scale ruler modes, touch pinch-to-zoom, and instant WhatsApp booking
 
+// ==================== GLOBAL TOUCH & SCROLL GUARD ====================
+// Absolutely prevents accidental modal open / auto-zoom while scrolling on mobile devices
+let isGlobalScrolling = false;
+let scrollCooldownTimer = null;
+let touchStartX = 0;
+let touchStartY = 0;
+let touchMoved = false;
+
+window.addEventListener('scroll', () => {
+  isGlobalScrolling = true;
+  clearTimeout(scrollCooldownTimer);
+  scrollCooldownTimer = setTimeout(() => {
+    isGlobalScrolling = false;
+  }, 160);
+}, { passive: true });
+
+document.addEventListener('touchstart', (e) => {
+  if (e.touches && e.touches.length > 0) {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+    touchMoved = false;
+  }
+}, { passive: true });
+
+document.addEventListener('touchmove', (e) => {
+  if (e.touches && e.touches.length > 0) {
+    const dx = Math.abs(e.touches[0].clientX - touchStartX);
+    const dy = Math.abs(e.touches[0].clientY - touchStartY);
+    if (dx > 8 || dy > 8) {
+      touchMoved = true;
+      isGlobalScrolling = true;
+    }
+  }
+}, { passive: true });
+
+document.addEventListener('touchend', () => {
+  if (touchMoved) {
+    isGlobalScrolling = true;
+    clearTimeout(scrollCooldownTimer);
+    scrollCooldownTimer = setTimeout(() => {
+      isGlobalScrolling = false;
+      touchMoved = false;
+    }, 200);
+  }
+}, { passive: true });
+
 class MacroViewer {
   constructor() {
     this.modal = document.getElementById('macro-modal');
@@ -27,15 +73,20 @@ class MacroViewer {
   }
 
   bindGlobalTriggers() {
-    // Delegated click and touch support for any element requesting macro inspection
+    // Delegated click support for any element requesting macro inspection
     let lastTriggerTime = 0;
 
     const handleTrigger = (e) => {
+      // If user was scrolling or moved their finger, DO NOT TRIGGER
+      if (isGlobalScrolling || touchMoved) {
+        return;
+      }
+
       const trigger = e.target.closest('[data-macro-artwork], [data-macro-id]');
       if (!trigger) return;
 
       const now = Date.now();
-      if (now - lastTriggerTime < 350) return; // Prevent double firing on touch/click synthesis
+      if (now - lastTriggerTime < 350) return; // Prevent double firing
       lastTriggerTime = now;
 
       const id = trigger.getAttribute('data-macro-artwork') || trigger.getAttribute('data-macro-id');
@@ -46,13 +97,8 @@ class MacroViewer {
       }
     };
 
-    document.addEventListener('click', handleTrigger, { passive: false });
-    document.addEventListener('touchend', (e) => {
-      const trigger = e.target.closest('[data-macro-artwork], [data-macro-id]');
-      if (trigger) {
-        handleTrigger(e);
-      }
-    }, { passive: false });
+    // Standard native click handles mobile taps cleanly without firing on scroll gestures
+    document.addEventListener('click', handleTrigger);
   }
 
   getCatalog() {
@@ -70,6 +116,8 @@ class MacroViewer {
   }
 
   open(artworkId) {
+    if (isGlobalScrolling || touchMoved) return;
+
     const catalog = this.getCatalog();
     if (!catalog || catalog.length === 0) {
       console.warn('[MacroViewer] Catalog not loaded yet');
@@ -89,6 +137,11 @@ class MacroViewer {
     this.modal.classList.remove('hidden');
     this.modal.style.display = 'flex';
     document.body.style.overflow = 'hidden';
+
+    // Keep loupe hidden initially so the user views the whole pristine artwork first
+    if (this.loupe) {
+      this.loupe.style.opacity = '0';
+    }
 
     // Temporarily hide floating elements (WhatsApp button, mobile bottom bar) so they don't block clicks/touches
     document.querySelectorAll('.wa-floating-btn, #mobile-conversion-bar, .floating-cta').forEach(el => {
@@ -226,12 +279,9 @@ class MacroViewer {
 
     const onReady = () => {
       this.updateLoupeBackgroundSize();
-      // On mobile / desktop initial open: place loupe at center of artwork image
-      const imgRect = this.image.getBoundingClientRect();
-      if (imgRect.width > 0 && imgRect.height > 0) {
-        const centerX = imgRect.left + (imgRect.width / 2);
-        const centerY = imgRect.top + (imgRect.height / 2);
-        this.renderLoupe(centerX, centerY);
+      // Keep loupe hidden until user hovers or taps to inspect
+      if (this.loupe) {
+        this.loupe.style.opacity = '0';
       }
     };
 
@@ -359,12 +409,11 @@ class MacroViewer {
 
     // Check pointer boundary on image with generous tolerance
     if (
-      clientX < (imgRect.left - 24) ||
-      clientX > (imgRect.right + 24) ||
-      clientY < (imgRect.top - 24) ||
-      clientY > (imgRect.bottom + 24)
+      clientX < (imgRect.left - 20) ||
+      clientX > (imgRect.right + 20) ||
+      clientY < (imgRect.top - 20) ||
+      clientY > (imgRect.bottom + 20)
     ) {
-      // Keep visible on mobile or fade out on mouse exit
       if (!isTouchEvent && !this.lastPointerPos) {
         this.loupe.style.opacity = '0';
         return;
@@ -386,7 +435,7 @@ class MacroViewer {
     const loupeRadius = (this.loupe.offsetWidth / 2) || 85;
 
     // For touch devices, offset loupe slightly upwards so user's thumb does not cover the magnified viewing area
-    const touchOffsetY = isTouchEvent ? 65 : 0;
+    const touchOffsetY = isTouchEvent ? 55 : 0;
 
     // 1. Stage-relative positioning: centers the loupe right at the user's cursor / above finger
     const stageX = clientX - stageRect.left;
@@ -407,6 +456,9 @@ class MacroViewer {
     // Close button & Esc
     const closeBtn = document.getElementById('macro-modal-close');
     if (closeBtn) closeBtn.onclick = () => this.close();
+
+    const secondaryCloseBtn = document.getElementById('macro-modal-close-secondary');
+    if (secondaryCloseBtn) secondaryCloseBtn.onclick = () => this.close();
 
     if (this.modal) {
       this.modal.addEventListener('click', (e) => {
@@ -474,7 +526,7 @@ class MacroViewer {
     container.addEventListener('mousemove', onMouseMove);
     container.addEventListener('mouseenter', onMouseMove);
     container.addEventListener('mouseleave', () => {
-      // Keep subtle presence if already inspecting
+      if (this.loupe) this.loupe.style.opacity = '0';
     });
 
     // Mouse Wheel Zoom on image stage
@@ -575,6 +627,9 @@ if (document.readyState === 'loading') {
 }
 
 window.openMacroViewer = function(artworkId) {
+  if (isGlobalScrolling || touchMoved) {
+    return;
+  }
   initGlobalMacroViewer();
   if (window.macroViewer) {
     window.macroViewer.open(artworkId);
